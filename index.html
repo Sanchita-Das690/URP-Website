@@ -22,7 +22,7 @@
                 </div>
                 <div class="flex flex-wrap gap-2 w-full sm:w-auto justify-end">
                     <button onclick="toggleModal('student-entry-modal')" class="bg-sky-600 hover:bg-sky-700 text-sm px-3 py-1.5 rounded-lg text-white transition flex items-center gap-1.5 font-medium whitespace-nowrap">
-                        👤 Student Portal (Up to 60)
+                        👤 Student Portal Form
                     </button>
                     <button onclick="toggleOfficialModal()" class="bg-amber-600 hover:bg-amber-700 text-sm px-3 py-1.5 rounded-lg text-white transition flex items-center gap-1.5 font-medium whitespace-nowrap">
                         🏛️ Add Official Notice
@@ -39,7 +39,7 @@
             <div class="bg-gray-950 p-6 rounded-xl border border-sky-500/30 shadow-lg shadow-sky-500/5">
                 <div class="max-w-xl mx-auto text-center space-y-4">
                     <h3 class="text-lg font-bold text-sky-400 uppercase tracking-wide mono">🔍 Student Directory Search</h3>
-                    <p class="text-xs text-gray-400">Enter a roll number to fetch complete professional & contact profile dynamically</p>
+                    <p class="text-xs text-gray-400">Enter a roll number or name to fetch profile contact data dynamically</p>
                     <div class="flex gap-2">
                         <input type="text" id="search-roll-input" placeholder="e.g., 2517001" class="w-full bg-gray-900 border border-gray-800 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-sky-500 placeholder-gray-600 font-medium">
                         <button onclick="searchStudentProfile()" class="bg-sky-500 hover:bg-sky-600 text-gray-950 font-bold px-6 py-2 rounded-lg text-sm transition">Search</button>
@@ -112,20 +112,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="bg-gray-950 p-6 rounded-xl border border-gray-800 shadow-xl">
-                <div class="mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
-                    <div>
-                        <h3 class="text-lg font-bold text-sky-400 flex items-center gap-2 uppercase tracking-wide mono">
-                            👥 Department Roster
-                        </h3>
-                        <p class="text-xs text-gray-500">Official active planners of URP '25 batch (Max capacity: 60)</p>
-                    </div>
-                    <span id="roster-count-badge" class="bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs px-2.5 py-1 rounded-full mono font-semibold">Registered: 0/60</span>
-                </div>
-                <div id="student-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-                    </div>
-            </div>
         </main>
     </div>
 
@@ -135,7 +121,7 @@
                 <h3 class="text-lg font-bold text-sky-400">Student Profile Setup</h3>
                 <button onclick="toggleModal('student-entry-modal')" class="text-gray-400 hover:text-white text-xl">&times;</button>
             </div>
-            <p class="text-xs text-gray-500">Fill your information. Fields are entirely optional—no strict restrictions applied.</p>
+            <p class="text-xs text-gray-500">Fill your information. Fields are entirely optional.</p>
             <form id="student-form" onsubmit="saveStudentProfile(event)" class="space-y-3">
                 <div>
                     <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider mono">Student Name</label>
@@ -154,8 +140,8 @@
                     <input type="text" id="stud-phone" placeholder="+8801xxxxxxxxx" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-sky-500 placeholder-gray-700">
                 </div>
                 <div>
-                    <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider mono">Profile Picture URL (Optional)</label>
-                    <input type="text" id="stud-pic" placeholder="Paste image web link or leave blank" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-sky-500 placeholder-gray-700">
+                    <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider mono">Upload Profile Picture (Browse)</label>
+                    <input type="file" id="stud-pic-file" accept="image/*" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-gray-400 focus:outline-none focus:border-sky-500 file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-sky-500/10 file:text-sky-400 hover:file:bg-sky-500/20 cursor-pointer">
                 </div>
                 <button type="submit" class="w-full bg-sky-500 hover:bg-sky-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-2">
                     Submit Profile
@@ -163,18 +149,6 @@
             </form>
         </div>
     </div>
-
-    <footer class="w-full py-8 mt-16 bg-gray-950 border-t border-gray-800 text-center text-xs text-gray-500 mono tracking-wide">
-        <div class="container mx-auto px-4 space-y-3">
-            <p>© 2026 KUET URP '25 Student Hub. All Rights Reserved.</p>
-            <div class="inline-flex items-center justify-center gap-2 px-4 py-2 bg-gray-900/50 rounded-full border border-gray-800/60 max-w-max mx-auto text-[11px] transition hover:border-emerald-500/20">
-                <span>Designed & Developed with 💻 by</span>
-                <span class="text-emerald-400 font-semibold tracking-wider hover:underline cursor-pointer">Sanchita Das</span>
-                <span class="text-gray-600">|</span>
-                <span class="text-gray-400">Department of Urban and Rural Planning, KUET</span>
-            </div>
-        </div>
-    </footer>
 
     <div id="admin-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-gray-950 border border-gray-800 rounded-xl max-w-md w-full p-6 space-y-4">
@@ -234,6 +208,18 @@
         </div>
     </div>
 
+    <footer class="w-full py-8 mt-16 bg-gray-950 border-t border-gray-800 text-center text-xs text-gray-500 mono tracking-wide">
+        <div class="container mx-auto px-4 space-y-3">
+            <p>© 2026 KUET URP '25 Student Hub. All Rights Reserved.</p>
+            <div class="inline-flex items-center justify-center gap-2 px-4 py-2 bg-gray-900/50 rounded-full border border-gray-800/60 max-w-max mx-auto text-[11px] transition hover:border-emerald-500/20">
+                <span>Designed & Developed with 💻 by</span>
+                <span class="text-emerald-400 font-semibold tracking-wider hover:underline cursor-pointer">Sanchita Das</span>
+                <span class="text-gray-600">|</span>
+                <span class="text-gray-400">Department of Urban and Rural Planning, KUET</span>
+            </div>
+        </div>
+    </footer>
+
     <script>
         const defaultNotices = [
             { id: 1, title: "Welcome to KUET URP '25 Student Hub!", desc: "This is our digital commons for routines, exams, and announcements.", category: "General", date: "Jun 25, 2026", deadline: "" }
@@ -243,16 +229,10 @@
             { id: 101, title: "Registration Notice for Upcoming Semester", date: "Jun 25, 2026", link: "#" }
         ];
 
-
         let notices = JSON.parse(localStorage.getItem('urp_notices')) || defaultNotices;
         let officialNotices = JSON.parse(localStorage.getItem('urp_official_notices')) || defaultOfficialNotices;
-        let customStudents = JSON.parse(localStorage.getItem('urp_custom_students'));
+        let customStudents = JSON.parse(localStorage.getItem('urp_custom_students')) || [];
         
-        if (!customStudents) {
-            customStudents = seedStudents;
-            localStorage.setItem('urp_custom_students', JSON.stringify(customStudents));
-        }
-
         let currentFilter = 'all';
         const ADMIN_PASSWORD = "kueturp25";
 
@@ -283,31 +263,40 @@
                 roll = "TEMP-" + Date.now().toString().slice(-4);
             }
 
-            if(customStudents.length >= 60 && !customStudents.some(s => s.id.toLowerCase() === roll.toLowerCase())) {
-                alert("Roster Capacity Full! Maximum limit is 60 students.");
-                return;
-            }
+            const fileInput = document.getElementById('stud-pic-file');
+            const file = fileInput.files[0];
 
-            const newStudent = {
-                id: roll,
-                name: document.getElementById('stud-name').value.trim() || "Anonymous Student",
-                email: document.getElementById('stud-email').value.trim() || "Not Provided",
-                phone: document.getElementById('stud-phone').value.trim() || "Not Provided",
-                pic: document.getElementById('stud-pic').value.trim() || ""
+            const processAndSave = (base64Image) => {
+                const newStudent = {
+                    id: roll,
+                    name: document.getElementById('stud-name').value.trim() || "Anonymous Student",
+                    email: document.getElementById('stud-email').value.trim() || "Not Provided",
+                    phone: document.getElementById('stud-phone').value.trim() || "Not Provided",
+                    pic: base64Image || ""
+                };
+
+                const existingIndex = customStudents.findIndex(s => s.id.toLowerCase() === roll.toLowerCase());
+                if(existingIndex !== -1) {
+                    customStudents[existingIndex] = newStudent;
+                } else {
+                    customStudents.push(newStudent);
+                }
+
+                localStorage.setItem('urp_custom_students', JSON.stringify(customStudents));
+                document.getElementById('student-form').reset();
+                toggleModal('student-entry-modal');
+                alert("Profile saved successfully inside Client Memory Instance!");
             };
 
-            const existingIndex = customStudents.findIndex(s => s.id.toLowerCase() === roll.toLowerCase());
-            if(existingIndex !== -1) {
-                customStudents[existingIndex] = newStudent;
+            if (file) {
+                const reader = new FileReader();
+                reader.onloadend = function() {
+                    processAndSave(reader.result);
+                }
+                reader.readAsDataURL(file);
             } else {
-                customStudents.push(newStudent);
+                processAndSave("");
             }
-
-            localStorage.setItem('urp_custom_students', JSON.stringify(customStudents));
-            document.getElementById('student-form').reset();
-            toggleModal('student-entry-modal');
-            renderStudentsGrid();
-            alert("Profile saved successfully inside Client Memory Instance!");
         }
 
         function searchStudentProfile() {
@@ -339,27 +328,9 @@
                 `;
             } else {
                 resultDisplay.innerHTML = `
-                    <p class="text-xs text-rose-400 text-center mono">❌ No student profile found matching query "${query}". Add it via the Student Portal button!</p>
+                    <p class="text-xs text-rose-400 text-center mono">❌ No student profile found matching query "${query}". Add it via the Student Portal Form button!</p>
                 `;
             }
-        }
-
-        function renderStudentsGrid() {
-            const gridContainer = document.getElementById('student-grid');
-            gridContainer.innerHTML = '';
-            
-            document.getElementById('roster-count-badge').innerText = `Registered: ${customStudents.length}/60`;
-
-            customStudents.forEach(student => {
-                gridContainer.innerHTML += `
-                    <div onclick="document.getElementById('search-roll-input').value='${student.id}'; searchStudentProfile();" class="p-4 bg-gray-900 border border-gray-800/80 rounded-xl flex flex-col justify-between cursor-pointer hover:border-sky-500/40 transition group">
-                        <div class="text-[10px] text-emerald-400 font-bold tracking-wider mono bg-emerald-500/10 px-2 py-0.5 rounded w-max">
-                            ID: ${student.id}
-                        </div>
-                        <h4 class="text-sm font-semibold text-gray-200 mt-2 truncate group-hover:text-sky-400 transition">${student.name}</h4>
-                    </div>
-                `;
-            });
         }
 
         function renderNotices() {
@@ -559,9 +530,6 @@
 
         // Bootstrap App
         renderNotices();
-        renderStudentsGrid();
     </script>
 </body>
 </html>
-     
-   

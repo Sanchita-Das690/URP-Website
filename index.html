@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KUET URP '25 Student Hub</title>
-    <!-- Tailwind CSS for modern UI -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght=400;500;700&family=Plus+Jakarta+Sans:wght=400;600;700&display=swap');
@@ -15,100 +14,98 @@
 <body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col justify-between">
 
     <div>
-        <!-- Header Section -->
         <header class="border-b border-gray-800 bg-gray-950 sticky top-0 z-50">
             <div class="container mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                     <h1 class="text-2xl font-bold text-emerald-400 tracking-wide">KUET URP '25</h1>
                     <p class="text-xs text-gray-400 mono">The Planners' Digital Commons</p>
                 </div>
-                <div class="flex flex-col items-end gap-2 w-full sm:w-auto">
-                    <div class="flex gap-2 w-full sm:w-auto justify-end">
-                        <button onclick="toggleOfficialModal()" class="bg-amber-600 hover:bg-amber-700 text-sm px-3 py-1.5 rounded-lg text-white transition flex items-center gap-1.5 font-medium whitespace-nowrap">
-                            🏛️ Add Official Notice
-                        </button>
-                        <button onclick="toggleAdminModal()" class="bg-gray-800 hover:bg-gray-700 text-sm px-3 py-1.5 rounded-lg border border-gray-700 text-gray-300 transition flex items-center gap-1.5 whitespace-nowrap">
-                            <span>➕</span> Share Update
-                        </button>
-                    </div>
-                    <!-- Creator Tag on Header -->
-                    <span class="text-[11px] text-gray-500 mono tracking-wide hidden sm:block">
-                        Crafted by <span class="text-emerald-400/80 font-medium">Sanchita</span> | Dept. of URP, KUET
-                    </span>
+                <div class="flex flex-wrap gap-2 w-full sm:w-auto justify-end">
+                    <button onclick="toggleModal('student-entry-modal')" class="bg-sky-600 hover:bg-sky-700 text-sm px-3 py-1.5 rounded-lg text-white transition flex items-center gap-1.5 font-medium whitespace-nowrap">
+                        👤 Student Portal (Up to 60)
+                    </button>
+                    <button onclick="toggleOfficialModal()" class="bg-amber-600 hover:bg-amber-700 text-sm px-3 py-1.5 rounded-lg text-white transition flex items-center gap-1.5 font-medium whitespace-nowrap">
+                        🏛️ Add Official Notice
+                    </button>
+                    <button onclick="toggleAdminModal()" class="bg-gray-800 hover:bg-gray-700 text-sm px-3 py-1.5 rounded-lg border border-gray-700 text-gray-300 transition flex items-center gap-1.5 whitespace-nowrap">
+                        <span>➕</span> Share Update
+                    </button>
                 </div>
             </div>
         </header>
 
         <main class="container mx-auto px-4 py-8 max-w-5xl space-y-8">
-            <!-- Main Top Grid Layout -->
+            
+            <div class="bg-gray-950 p-6 rounded-xl border border-sky-500/30 shadow-lg shadow-sky-500/5">
+                <div class="max-w-xl mx-auto text-center space-y-4">
+                    <h3 class="text-lg font-bold text-sky-400 uppercase tracking-wide mono">🔍 Student Directory Search</h3>
+                    <p class="text-xs text-gray-400">Enter a roll number to fetch complete professional & contact profile dynamically</p>
+                    <div class="flex gap-2">
+                        <input type="text" id="search-roll-input" placeholder="e.g., 2517001" class="w-full bg-gray-900 border border-gray-800 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-sky-500 placeholder-gray-600 font-medium">
+                        <button onclick="searchStudentProfile()" class="bg-sky-500 hover:bg-sky-600 text-gray-950 font-bold px-6 py-2 rounded-lg text-sm transition">Search</button>
+                    </div>
+                    
+                    <div id="search-result-display" class="hidden mt-6 p-4 bg-gray-900 rounded-xl border border-gray-800 text-left transition-all duration-300">
+                        </div>
+                </div>
+            </div>
+
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 
-                <!-- Left Column: Notice Board & Filters -->
                 <div class="md:col-span-2 space-y-6">
                     
-                    <!-- Dedicated General Notice Board -->
                     <div class="bg-gray-950 p-5 rounded-xl border border-emerald-500/20 shadow-lg shadow-emerald-500/5">
                         <h3 class="text-base font-bold text-emerald-400 mb-4 flex items-center gap-2 uppercase tracking-wide mono">
                             📌 General Notices
                         </h3>
                         <div class="space-y-3" id="general-notices-container">
-                            <!-- Dynamic general pinned notices will be loaded here -->
-                        </div>
+                            </div>
                     </div>
 
-                    <!-- Filter Buttons -->
                     <div class="bg-gray-950 p-4 rounded-xl border border-gray-800">
                         <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 mono">Filter Feed</h3>
                         <div class="flex flex-wrap gap-2" id="filter-container">
                             <button onclick="filterNotices('all')" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-emerald-500 text-gray-950 transition" id="btn-all">All Updates</button>
                             <button onclick="filterNotices('Exam')" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-800 hover:bg-gray-700 text-gray-300 transition" id="btn-Exam">📝 Exams</button>
                             <button onclick="filterNotices('Class')" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-800 hover:bg-gray-700 text-gray-300 transition" id="btn-Class">📚 Classes</button>
-                            <button onclick="filterNotices('Lab')" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-800 hover:bg-gray-700 text-gray-300 transition" id="btn-Lab">💻 Labs & Maps</button>
+                            <button onclick="filterNotices('Lab')" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-800 hover:bg-gray-700 text-gray-300 transition" id="btn-Lab">🔬 Labs</button>
                         </div>
                     </div>
 
-                    <!-- Notices Container -->
                     <div class="space-y-4" id="notices-container">
-                        <!-- Dynamic updates will be loaded here -->
-                    </div>
+                        </div>
                 </div>
 
-                <!-- Right Column: Sidebar -->
                 <div class="space-y-6">
-                    <!-- Official University Notices -->
                     <div class="bg-gray-950 p-5 rounded-xl border border-amber-500/20 shadow-lg shadow-amber-500/5">
                         <h3 class="text-base font-bold text-amber-400 mb-4 flex items-center gap-2 uppercase tracking-wide mono">
                             🏛️ Official Notices
                         </h3>
                         <div class="space-y-3" id="official-notices-container">
-                            <!-- Dynamic official notices will be loaded here -->
-                        </div>
+                            </div>
                     </div>
 
-                    <!-- Deadlines / Countdown Section -->
                     <div class="bg-gray-950 p-5 rounded-xl border border-gray-800">
                         <h3 class="text-base font-bold text-rose-400 mb-4 flex items-center gap-2 uppercase tracking-wide mono">
                             🚨 Urgent Deadlines
                         </h3>
                         <div class="space-y-4" id="deadlines-container">
-                            <!-- Dynamic deadlines will be loaded here -->
-                        </div>
+                            </div>
                     </div>
 
-                    <!-- Resources Section -->
                     <div class="bg-gray-950 p-5 rounded-xl border border-gray-800">
                         <h3 class="text-base font-bold text-sky-400 mb-4 uppercase tracking-wide mono">📂 Drive & Materials</h3>
                         <ul class="space-y-3 text-sm">
                             <li>
                                 <a href="#" class="block p-3 bg-gray-900 hover:bg-gray-800 rounded-lg border border-gray-800 transition">
                                     <span class="font-semibold block text-gray-200">Books & Notes Vault</span>
-                                    <span class="text-xs text-gray-500">Shared cloud drive links for all semesters</span>
+                                    <span class="text-xs text-gray-500">Shared cloud drive links</span>
                                 </a>
                             </li>
                             <li>
                                 <a href="#" class="block p-3 bg-gray-900 hover:bg-gray-800 rounded-lg border border-gray-800 transition">
                                     <span class="font-semibold block text-gray-200">Software Setup Guide</span>
-                                    <span class="text-xs text-gray-500">ArcGIS, QGIS, and Python libraries</span>
+                                    <span class="text-xs text-gray-500">ArcGIS, QGIS, and Spatial libraries</span>
                                 </a>
                             </li>
                         </ul>
@@ -116,60 +113,83 @@
                 </div>
             </div>
 
-            <!-- Full Width Student Directory Section -->
             <div class="bg-gray-950 p-6 rounded-xl border border-gray-800 shadow-xl">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                <div class="mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
                     <div>
                         <h3 class="text-lg font-bold text-sky-400 flex items-center gap-2 uppercase tracking-wide mono">
-                            👥 Student Directory
+                            👥 Department Roster
                         </h3>
-                        <p class="text-xs text-gray-500">Official contact and information details of URP '25 batch</p>
+                        <p class="text-xs text-gray-500">Official active planners of URP '25 batch (Max capacity: 60)</p>
                     </div>
+                    <span id="roster-count-badge" class="bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs px-2.5 py-1 rounded-full mono font-semibold">Registered: 0/60</span>
                 </div>
-                
-                <!-- Responsive Table Container -->
-                <div class="overflow-x-auto rounded-lg border border-gray-800">
-                    <table class="w-full text-left border-collapse text-sm">
-                        <thead>
-                            <tr class="bg-gray-900 border-b border-gray-800 text-gray-400 text-xs uppercase tracking-wider mono">
-                                <th class="p-3.5 font-semibold">Roll</th>
-                                <th class="p-3.5 font-semibold">Name</th>
-                                <th class="p-3.5 font-semibold">Phone</th>
-                                <th class="p-3.5 font-semibold">Blood Group</th>
-                            </tr>
-                        </thead>
-                        <tbody id="student-table-body" class="divide-y divide-gray-800/50">
-                            <!-- Dynamic student info list will load here -->
-                        </tbody>
-                    </table>
-                </div>
+                <div id="student-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                    </div>
             </div>
         </main>
     </div>
 
-    <!-- Footer Section with Creator Tag -->
-    <footer class="w-full py-6 mt-12 bg-gray-950 border-t border-gray-800 text-center text-xs text-gray-500 mono tracking-wide">
-        <p>© 2026 KUET URP '25 Student Hub. All Rights Reserved.</p>
-        <p class="mt-1 text-[11px]">
-            Designed & Developed with 💻 by <span class="text-emerald-400 font-medium hover:underline cursor-pointer">Sanchita Das</span> | Department of Urban and Rural Planning, KUET
-        </p>
+    <div id="student-entry-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-gray-950 border border-gray-800 rounded-xl max-w-md w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold text-sky-400">Student Profile Setup</h3>
+                <button onclick="toggleModal('student-entry-modal')" class="text-gray-400 hover:text-white text-xl">&times;</button>
+            </div>
+            <p class="text-xs text-gray-500">Fill your information. Fields are entirely optional—no strict restrictions applied.</p>
+            <form id="student-form" onsubmit="saveStudentProfile(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider mono">Student Name</label>
+                    <input type="text" id="stud-name" placeholder="Sanchita Das" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-sky-500 placeholder-gray-700">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider mono">Roll / Student ID</label>
+                    <input type="text" id="stud-roll" placeholder="e.g., 2517001" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-sky-500 placeholder-gray-700">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider mono">Email Address</label>
+                    <input type="email" id="stud-email" placeholder="example@kuet.ac.bd" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-sky-500 placeholder-gray-700">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider mono">Phone Number</label>
+                    <input type="text" id="stud-phone" placeholder="+8801xxxxxxxxx" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-sky-500 placeholder-gray-700">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider mono">Profile Picture URL (Optional)</label>
+                    <input type="text" id="stud-pic" placeholder="Paste image web link or leave blank" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-sky-500 placeholder-gray-700">
+                </div>
+                <button type="submit" class="w-full bg-sky-500 hover:bg-sky-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-2">
+                    Submit Profile
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <footer class="w-full py-8 mt-16 bg-gray-950 border-t border-gray-800 text-center text-xs text-gray-500 mono tracking-wide">
+        <div class="container mx-auto px-4 space-y-3">
+            <p>© 2026 KUET URP '25 Student Hub. All Rights Reserved.</p>
+            <div class="inline-flex items-center justify-center gap-2 px-4 py-2 bg-gray-900/50 rounded-full border border-gray-800/60 max-w-max mx-auto text-[11px] transition hover:border-emerald-500/20">
+                <span>Designed & Developed with 💻 by</span>
+                <span class="text-emerald-400 font-semibold tracking-wider hover:underline cursor-pointer">Sanchita Das</span>
+                <span class="text-gray-600">|</span>
+                <span class="text-gray-400">Department of Urban and Rural Planning, KUET</span>
+            </div>
+        </div>
     </footer>
 
-    <!-- General Notice Modal -->
     <div id="admin-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-gray-950 border border-gray-800 rounded-xl max-w-md w-full p-6 space-y-4">
             <div class="flex justify-between items-center">
                 <h3 class="text-lg font-bold text-emerald-400">Create New Post</h3>
-                <button onclick="toggleAdminModal()" class="text-gray-400 hover:text-white text-xl">&times;</button>
+                <button onclick="toggleModal('admin-modal')" class="text-gray-400 hover:text-white text-xl">&times;</button>
             </div>
             <form id="notice-form" onsubmit="saveNotice(event)" class="space-y-3">
                 <div>
                     <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider mono">Topic / Title</label>
-                    <input type="text" id="form-title" placeholder="e.g., URP 1100 Lab Submission" required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-emerald-500 placeholder-gray-600">
+                    <input type="text" id="form-title" placeholder="e.g., URP 1101 Introduction Class" required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-emerald-500 placeholder-gray-600">
                 </div>
                 <div>
                     <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider mono">Details</label>
-                    <textarea id="form-desc" rows="3" placeholder="Write inside details here..." required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-emerald-500 placeholder-gray-600"></textarea>
+                    <textarea id="form-desc" rows="3" placeholder="Write details here..." required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-emerald-500 placeholder-gray-600"></textarea>
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
@@ -178,7 +198,6 @@
                             <option value="General">📌 General Notice</option>
                             <option value="Exam">📝 Exams</option>
                             <option value="Class">📚 Classes</option>
-                            <option value="Lab">💻 Labs & Maps</option>
                         </select>
                     </div>
                     <div>
@@ -193,12 +212,11 @@
         </div>
     </div>
 
-    <!-- Official Notice Modal -->
     <div id="official-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-gray-950 border border-amber-500/30 rounded-xl max-w-md w-full p-6 space-y-4">
             <div class="flex justify-between items-center">
                 <h3 class="text-lg font-bold text-amber-400">Add Official University Notice</h3>
-                <button onclick="toggleOfficialModal()" class="text-gray-400 hover:text-white text-xl">&times;</button>
+                <button onclick="toggleModal('official-modal')" class="text-gray-400 hover:text-white text-xl">&times;</button>
             </div>
             <form id="official-form" onsubmit="saveOfficialNotice(event)" class="space-y-3">
                 <div>
@@ -206,8 +224,8 @@
                     <input type="text" id="official-title" placeholder="e.g., Academic Calendar Update" required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-amber-500 placeholder-gray-600">
                 </div>
                 <div>
-                    <label class="block text-xs text-amber-400 mb-1 uppercase tracking-wider mono">Attachment / Drive Link (Optional)</label>
-                    <input type="url" id="official-link" placeholder="https://drive.google.com/... (or notice link)" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-amber-500 placeholder-gray-600">
+                    <label class="block text-xs text-amber-400 mb-1 uppercase tracking-wider mono">Attachment Link</label>
+                    <input type="url" id="official-link" placeholder="https://drive.google.com/..." class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-amber-500 placeholder-gray-600">
                 </div>
                 <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-2">
                     Publish Official Notice
@@ -216,65 +234,139 @@
         </div>
     </div>
 
-    <!-- JavaScript Logic -->
     <script>
-        // Sample Notices Data
         const defaultNotices = [
-            { id: 1, title: "Welcome to KUET URP '25 Student Hub!", desc: "This is our permanent digital notice board. All regular announcements, routines, and deadlines will be posted here.", category: "General", date: "Jun 21, 2026", deadline: "" },
-            { id: 2, title: "URP 1100 Base Map Layout Submission", desc: "Complete the base map layout and submit the exported PDF via the classroom link.", category: "Lab", date: "Jun 21, 2026", deadline: "" }
+            { id: 1, title: "Welcome to KUET URP '25 Student Hub!", desc: "This is our digital commons for routines, exams, and announcements.", category: "General", date: "Jun 25, 2026", deadline: "" }
         ];
 
         const defaultOfficialNotices = [
-            { id: 101, title: "Registration Notice for Upcoming Semester", date: "Jun 21, 2026", link: "#" }
+            { id: 101, title: "Registration Notice for Upcoming Semester", date: "Jun 25, 2026", link: "#" }
         ];
 
-        // Permanent Student Directory Data
-        const studentsList = [
-            { roll: "2517001", name: "Student Name 1", phone: "017XXXXXXXX", blood: "A+" },
-            { roll: "2517002", name: "Student Name 2", phone: "018XXXXXXXX", blood: "B+" },
-            { roll: "2517003", name: "Student Name 3", phone: "015XXXXXXXX", blood: "O+" },
-            { roll: "2517004", name: "Student Name 4", phone: "019XXXXXXXX", blood: "AB+" },
-            { roll: "2517005", name: "Student Name 5", phone: "013XXXXXXXX", blood: "O-" },
-            { roll: "2517006", name: "Student Name 6", phone: "016XXXXXXXX", blood: "A-" },
-            { roll: "2517007", name: "Student Name 7", phone: "014XXXXXXXX", blood: "B-" }
+        const seedStudents = [
+            { id: "2517001", name: "Sanchita Das", email: "sanchita2517001@stud.kuet.ac.bd", phone: "N/A", pic: "" },
+            { id: "2517002", name: "Sadman Rahman", email: "sadman2517002@stud.kuet.ac.bd", phone: "N/A", pic: "" },
+            { id: "2517003", name: "Ahsan Habib", email: "", phone: "", pic: "" },
+            { id: "2517004", name: "Nusrat Jahan", email: "", phone: "", pic: "" },
+            { id: "2517005", name: "Abrar Zahin", email: "", phone: "", pic: "" },
+            { id: "2517006", name: "Fariha Tasnim", email: "", phone: "", pic: "" },
+            { id: "2517007", name: "Tahmid Hasan", email: "", phone: "", pic: "" }
         ];
 
         let notices = JSON.parse(localStorage.getItem('urp_notices')) || defaultNotices;
         let officialNotices = JSON.parse(localStorage.getItem('urp_official_notices')) || defaultOfficialNotices;
-        let currentFilter = 'all';
+        let customStudents = JSON.parse(localStorage.getItem('urp_custom_students'));
+        
+        if (!customStudents) {
+            customStudents = seedStudents;
+            localStorage.setItem('urp_custom_students', JSON.stringify(customStudents));
+        }
 
+        let currentFilter = 'all';
         const ADMIN_PASSWORD = "kueturp25";
 
+        // Global Modal Visibility Toggle
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if(modal) modal.classList.toggle('hidden');
+        }
+
+        // Specific Admin Overrides matched with layout actions
         function toggleAdminModal() {
-            const modal = document.getElementById('admin-modal');
-            if (!modal.classList.contains('hidden')) { modal.classList.add('hidden'); return; }
             const password = prompt("Enter Admin Password to Upload Notice:");
-            if (password === ADMIN_PASSWORD) modal.classList.remove('hidden');
+            if (password === ADMIN_PASSWORD) toggleModal('admin-modal');
             else if (password !== null) alert("Wrong Password! Access Denied.");
         }
 
         function toggleOfficialModal() {
-            const modal = document.getElementById('official-modal');
-            if (!modal.classList.contains('hidden')) { modal.classList.add('hidden'); return; }
             const password = prompt("Enter Admin Password to Add Official Notice:");
-            if (password === ADMIN_PASSWORD) modal.classList.remove('hidden');
+            if (password === ADMIN_PASSWORD) toggleModal('official-modal');
             else if (password !== null) alert("Wrong Password! Access Denied.");
         }
 
-        function renderStudents() {
-            const tableBody = document.getElementById('student-table-body');
-            tableBody.innerHTML = '';
+        function saveStudentProfile(e) {
+            e.preventDefault();
             
-            studentsList.forEach(student => {
-                tableBody.innerHTML += `
-                    <tr class="hover:bg-gray-900/50 transition border-b border-gray-800/30">
-                        <td class="p-3.5 font-semibold text-emerald-400 mono text-xs">${student.roll}</td>
-                        <td class="p-3.5 font-medium text-gray-200">${student.name}</td>
-                        <td class="p-3.5 text-gray-400 mono text-xs">
-                            <a href="tel:${student.phone}" class="hover:text-sky-400 transition flex items-center gap-1">📞 ${student.phone}</a>
-                        </td>
-                        <td class="p-3.5 text-xs font-semibold"><span class="px-2 py-0.5 rounded bg-rose-500/10 text-rose-400 border border-rose-500/10">${student.blood}</span></td>
-                    </tr>
+            let roll = document.getElementById('stud-roll').value.trim();
+            if(!roll) {
+                roll = "TEMP-" + Date.now().toString().slice(-4);
+            }
+
+            if(customStudents.length >= 60 && !customStudents.some(s => s.id.toLowerCase() === roll.toLowerCase())) {
+                alert("Roster Capacity Full! Maximum limit is 60 students.");
+                return;
+            }
+
+            const newStudent = {
+                id: roll,
+                name: document.getElementById('stud-name').value.trim() || "Anonymous Student",
+                email: document.getElementById('stud-email').value.trim() || "Not Provided",
+                phone: document.getElementById('stud-phone').value.trim() || "Not Provided",
+                pic: document.getElementById('stud-pic').value.trim() || ""
+            };
+
+            const existingIndex = customStudents.findIndex(s => s.id.toLowerCase() === roll.toLowerCase());
+            if(existingIndex !== -1) {
+                customStudents[existingIndex] = newStudent;
+            } else {
+                customStudents.push(newStudent);
+            }
+
+            localStorage.setItem('urp_custom_students', JSON.stringify(customStudents));
+            document.getElementById('student-form').reset();
+            toggleModal('student-entry-modal');
+            renderStudentsGrid();
+            alert("Profile saved successfully inside Client Memory Instance!");
+        }
+
+        function searchStudentProfile() {
+            const query = document.getElementById('search-roll-input').value.trim().toLowerCase();
+            const resultDisplay = document.getElementById('search-result-display');
+            
+            if(!query) {
+                resultDisplay.classList.add('hidden');
+                return;
+            }
+
+            const student = customStudents.find(s => s.id.toLowerCase() === query || s.name.toLowerCase().includes(query));
+
+            resultDisplay.classList.remove('hidden');
+            if(student) {
+                const avatar = student.pic ? student.pic : 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&h=120&q=80';
+                resultDisplay.innerHTML = `
+                    <div class="flex items-start gap-4">
+                        <img src="${avatar}" class="w-16 h-16 rounded-full border border-sky-500/30 bg-gray-800 object-cover flex-shrink-0" alt="Avatar">
+                        <div class="space-y-1 w-full">
+                            <div class="flex justify-between items-start">
+                                <h4 class="text-base font-bold text-white">${student.name}</h4>
+                                <span class="text-xs bg-sky-500/10 border border-sky-500/30 text-sky-400 px-2 py-0.5 rounded font-bold mono">ID: ${student.id}</span>
+                            </div>
+                            <p class="text-xs text-gray-300"><span class="text-gray-500 mono">📩 Email:</span> ${student.email || 'Not Provided'}</p>
+                            <p class="text-xs text-gray-300"><span class="text-gray-500 mono">📞 Phone:</span> ${student.phone || 'Not Provided'}</p>
+                        </div>
+                    </div>
+                `;
+            } else {
+                resultDisplay.innerHTML = `
+                    <p class="text-xs text-rose-400 text-center mono">❌ No student profile found matching query "${query}". Add it via the Student Portal button!</p>
+                `;
+            }
+        }
+
+        function renderStudentsGrid() {
+            const gridContainer = document.getElementById('student-grid');
+            gridContainer.innerHTML = '';
+            
+            document.getElementById('roster-count-badge').innerText = `Registered: ${customStudents.length}/60`;
+
+            customStudents.forEach(student => {
+                gridContainer.innerHTML += `
+                    <div onclick="document.getElementById('search-roll-input').value='${student.id}'; searchStudentProfile();" class="p-4 bg-gray-900 border border-gray-800/80 rounded-xl flex flex-col justify-between cursor-pointer hover:border-sky-500/40 transition group">
+                        <div class="text-[10px] text-emerald-400 font-bold tracking-wider mono bg-emerald-500/10 px-2 py-0.5 rounded w-max">
+                            ID: ${student.id}
+                        </div>
+                        <h4 class="text-sm font-semibold text-gray-200 mt-2 truncate group-hover:text-sky-400 transition">${student.name}</h4>
+                    </div>
                 `;
             });
         }
@@ -282,14 +374,14 @@
         function renderNotices() {
             const generalContainer = document.getElementById('general-notices-container');
             generalContainer.innerHTML = '';
-            
             const generalNotices = notices.filter(n => n.category === 'General');
+            
             if(generalNotices.length === 0) {
                 generalContainer.innerHTML = `<p class="text-xs text-gray-500 text-center py-2 mono">No pinned announcements.</p>`;
             } else {
                 generalNotices.forEach(notice => {
                     generalContainer.innerHTML += `
-                        <div class="p-3.5 bg-gray-900 rounded-lg border border-gray-800 relative group hover:border-emerald-500/20 transition">
+                        <div class="p-3.5 bg-gray-900 rounded-lg border border-emerald-500/20 relative group transition">
                             <div class="flex justify-between text-[10px] text-gray-500 mono mb-1">
                                 <span>📌 PINNED NOTICE</span>
                                 <span>${notice.date}</span>
@@ -305,18 +397,20 @@
             const container = document.getElementById('notices-container');
             container.innerHTML = '';
 
-            const feedNotices = notices.filter(n => n.category !== 'General');
-            const filtered = currentFilter === 'all' ? feedNotices : notices.filter(n => n.category === currentFilter);
+            if(currentFilter === 'Lab') {
+                container.innerHTML = `<div class="text-center py-12 text-gray-500 text-sm mono border border-dashed border-gray-800 rounded-xl bg-gray-950/40">🔬 Labs content is currently empty.</div>`;
+                return;
+            }
+
+            const allowedFeedNotices = notices.filter(n => n.category === 'Exam' || n.category === 'Class');
+            const filtered = currentFilter === 'all' ? allowedFeedNotices : allowedFeedNotices.filter(n => n.category === currentFilter);
 
             if(filtered.length === 0) {
                 container.innerHTML = `<div class="text-center py-8 text-gray-500 text-sm mono">No updates found in this category.</div>`;
             } else {
                 filtered.forEach(notice => {
-                    let badgeColor = notice.category === 'Exam' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 
-                                     notice.category === 'Class' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : 
-                                     'bg-sky-500/10 text-sky-400 border-sky-500/20';
-                    
-                    let badgeText = notice.category === 'Exam' ? '📝 Exam' : notice.category === 'Class' ? '📚 Class' : '💻 Lab';
+                    let badgeColor = notice.category === 'Exam' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20';
+                    let badgeText = notice.category === 'Exam' ? '📝 Exam' : '📚 Class';
 
                     container.innerHTML += `
                         <div class="bg-gray-950 p-5 rounded-xl border border-gray-800 relative group hover:border-gray-700 transition">
@@ -338,8 +432,7 @@
 
         function filterNotices(category) {
             currentFilter = category;
-            const buttons = ['all', 'Exam', 'Class', 'Lab'];
-            buttons.forEach(b => {
+            ['all', 'Exam', 'Class', 'Lab'].forEach(b => {
                 const btn = document.getElementById(`btn-${b}`);
                 if(b === category) {
                     btn.classList.remove('bg-gray-800', 'text-gray-300');
@@ -372,7 +465,7 @@
             localStorage.setItem('urp_notices', JSON.stringify(notices));
             
             document.getElementById('notice-form').reset();
-            toggleAdminModal();
+            toggleModal('admin-modal');
             renderNotices();
         }
 
@@ -392,49 +485,43 @@
             localStorage.setItem('urp_official_notices', JSON.stringify(officialNotices));
 
             document.getElementById('official-form').reset();
-            toggleOfficialModal();
+            toggleModal('official-modal');
             renderNotices();
         }
 
         function deleteNotice(id) {
-            const password = prompt("Enter Admin Password to Delete This Post:");
+            const password = prompt("Enter Admin Password to Delete:");
             if (password === ADMIN_PASSWORD) {
-                if(confirm('Are you sure you want to delete this post?')) {
+                if(confirm('Delete this post?')) {
                     notices = notices.filter(n => n.id !== id);
                     localStorage.setItem('urp_notices', JSON.stringify(notices));
                     renderNotices();
                 }
-            } else if (password !== null) alert("Wrong Password! Action Denied.");
+            } else if (password !== null) alert("Wrong Password!");
         }
 
         function deleteOfficialNotice(id) {
-            const password = prompt("Enter Admin Password to Delete This Official Notice:");
+            const password = prompt("Enter Admin Password:");
             if (password === ADMIN_PASSWORD) {
                 if(confirm('Delete this official notice?')) {
                     officialNotices = officialNotices.filter(n => n.id !== id);
                     localStorage.setItem('urp_official_notices', JSON.stringify(officialNotices));
                     renderNotices();
                 }
-            } else if (password !== null) alert("Wrong Password! Access Denied.");
+            } else if (password !== null) alert("Wrong Password!");
         }
 
         function renderOfficialNotices() {
             const container = document.getElementById('official-notices-container');
             container.innerHTML = '';
-
             if(officialNotices.length === 0) {
-                container.innerHTML = `<p class="text-xs text-gray-500 text-center py-2 mono">No official notices posted yet.</p>`;
+                container.innerHTML = `<p class="text-xs text-gray-500 text-center py-2 mono">No official notices.</p>`;
                 return;
             }
-
             officialNotices.forEach(n => {
-                let linkButton = n.link !== "#" ? `
-                    <a href="${n.link}" target="_blank" class="mt-2 inline-flex items-center gap-1 text-xs text-amber-400 hover:underline mono">
-                        📥 View / Download Attachment
-                    </a>` : '';
-
+                let linkButton = n.link !== "#" ? `<a href="${n.link}" target="_blank" class="mt-2 inline-flex items-center gap-1 text-xs text-amber-400 hover:underline mono">📥 View Attachment</a>` : '';
                 container.innerHTML += `
-                    <div class="p-3.5 bg-gray-900 rounded-lg border border-gray-800 relative group hover:border-amber-500/20 transition">
+                    <div class="p-3.5 bg-gray-900 rounded-lg border border-gray-800 relative group transition">
                         <span class="text-[10px] text-gray-500 mono block mb-1">${n.date}</span>
                         <h4 class="text-sm font-semibold text-gray-200 leading-snug">${n.title}</h4>
                         ${linkButton}
@@ -453,7 +540,6 @@
                 container.innerHTML = `<p class="text-xs text-gray-500 text-center py-2 mono">No active deadlines!</p>`;
                 return;
             }
-
             withDeadlines.forEach(n => {
                 container.innerHTML += `
                     <div class="p-3 bg-gray-900 rounded-lg border border-gray-800">
@@ -469,11 +555,8 @@
                 const target = new Date(el.getAttribute('data-time')).getTime();
                 const now = new Date().getTime();
                 const diff = target - now;
-
                 if (diff <= 0) {
                     el.innerText = "Deadline Passed!";
-                    el.classList.remove('text-rose-400');
-                    el.classList.add('text-gray-500');
                 } else {
                     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
                     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -483,9 +566,11 @@
             });
         }, 1000);
 
-        // Run Initial Load
+        // Bootstrap App
         renderNotices();
-        renderStudents();
+        renderStudentsGrid();
     </script>
 </body>
 </html>
+     
+   

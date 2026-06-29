@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KUET URP '25 Student Hub</title>
+    <!-- Tailwind CSS for modern UI -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght=400;500;700&family=Plus+Jakarta+Sans:wght=400;600;700&display=swap');
@@ -14,6 +15,7 @@
 <body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col justify-between">
 
     <div>
+        <!-- Header Section -->
         <header class="border-b border-gray-800 bg-gray-950 sticky top-0 z-50">
             <div class="container mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
@@ -21,16 +23,16 @@
                     <p class="text-xs text-gray-400 mono">The Planners' Digital Commons</p>
                 </div>
                 <div class="flex flex-wrap gap-2 w-full sm:w-auto justify-end">
-                    <button onclick="toggleModal('student-entry-modal')" class="bg-sky-600 hover:bg-sky-700 text-sm px-3 py-1.5 rounded-lg text-white transition flex items-center gap-1.5 font-medium whitespace-nowrap">
+                    <button onclick="toggleModal('student-entry-modal')" class="bg-sky-600 hover:bg-sky-700 text-sm px-3 py-1.5 rounded-lg text-white transition flex items-center gap-1.5 font-medium whitespace-nowrap cursor-pointer">
                         👤 Student Portal Form
                     </button>
-                    <button onclick="toggleVaultModal()" class="bg-teal-600 hover:bg-teal-700 text-sm px-3 py-1.5 rounded-lg text-white transition flex items-center gap-1.5 font-medium whitespace-nowrap">
+                    <button onclick="toggleVaultModal()" class="bg-teal-600 hover:bg-teal-700 text-sm px-3 py-1.5 rounded-lg text-white transition flex items-center gap-1.5 font-medium whitespace-nowrap cursor-pointer">
                         📂 Update Drive/Software Link
                     </button>
-                    <button onclick="toggleOfficialModal()" class="bg-amber-600 hover:bg-amber-700 text-sm px-3 py-1.5 rounded-lg text-white transition flex items-center gap-1.5 font-medium whitespace-nowrap">
+                    <button onclick="toggleOfficialModal()" class="bg-amber-600 hover:bg-amber-700 text-sm px-3 py-1.5 rounded-lg text-white transition flex items-center gap-1.5 font-medium whitespace-nowrap cursor-pointer">
                         🏛️ Add Official Notice
                     </button>
-                    <button onclick="toggleAdminModal()" class="bg-gray-800 hover:bg-gray-700 text-sm px-3 py-1.5 rounded-lg border border-gray-700 text-gray-300 transition flex items-center gap-1.5 whitespace-nowrap">
+                    <button onclick="toggleAdminModal()" class="bg-emerald-600 hover:bg-emerald-700 text-sm px-3 py-1.5 rounded-lg text-gray-950 font-bold transition flex items-center gap-1.5 whitespace-nowrap cursor-pointer">
                         <span>➕</span> Share Update
                     </button>
                 </div>
@@ -39,78 +41,96 @@
 
         <main class="container mx-auto px-4 py-8 max-w-5xl space-y-8">
             
+            <!-- INTERACTIVE FEATURE: Student Search Engine Box -->
             <div class="bg-gray-950 p-6 rounded-xl border border-sky-500/30 shadow-lg shadow-sky-500/5">
                 <div class="max-w-xl mx-auto text-center space-y-4">
                     <h3 class="text-lg font-bold text-sky-400 uppercase tracking-wide mono">🔍 Student Directory Search</h3>
                     <p class="text-xs text-gray-400">Enter a roll number or name to fetch profile contact data dynamically</p>
                     <div class="flex gap-2">
                         <input type="text" id="search-roll-input" placeholder="e.g., 2517001" class="w-full bg-gray-900 border border-gray-800 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-sky-500 placeholder-gray-600 font-medium">
-                        <button onclick="searchStudentProfile()" class="bg-sky-500 hover:bg-sky-600 text-gray-950 font-bold px-6 py-2 rounded-lg text-sm transition">Search</button>
+                        <button onclick="searchStudentProfile()" class="bg-sky-500 hover:bg-sky-600 text-gray-950 font-bold px-6 py-2 rounded-lg text-sm transition cursor-pointer">Search</button>
                     </div>
                     
+                    <!-- Search Results Area -->
                     <div id="search-result-display" class="hidden mt-6 p-4 bg-gray-900 rounded-xl border border-gray-800 text-left transition-all duration-300">
-                        </div>
+                        <!-- Loaded dynamically -->
+                    </div>
                 </div>
             </div>
 
+            <!-- Main Grid Layout -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 
+                <!-- Left Column: Notice Board & Filters -->
                 <div class="md:col-span-2 space-y-6">
                     
+                    <!-- Pinned General Notice Board -->
                     <div class="bg-gray-950 p-5 rounded-xl border border-emerald-500/20 shadow-lg shadow-emerald-500/5">
                         <h3 class="text-base font-bold text-emerald-400 mb-4 flex items-center gap-2 uppercase tracking-wide mono">
                             📌 General Notices
                         </h3>
                         <div class="space-y-3" id="general-notices-container">
-                            </div>
+                            <!-- JS loader -->
+                        </div>
                     </div>
 
+                    <!-- Filter Buttons -->
                     <div class="bg-gray-950 p-4 rounded-xl border border-gray-800">
                         <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 mono">Filter Feed</h3>
                         <div class="flex flex-wrap gap-2" id="filter-container">
-                            <button onclick="filterNotices('all')" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-emerald-500 text-gray-950 transition" id="btn-all">All Updates</button>
-                            <button onclick="filterNotices('Exam')" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-800 hover:bg-gray-700 text-gray-300 transition" id="btn-Exam">📝 Exams</button>
-                            <button onclick="filterNotices('Class')" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-800 hover:bg-gray-700 text-gray-300 transition" id="btn-Class">📚 Classes</button>
-                            <button onclick="filterNotices('Lab')" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-800 hover:bg-gray-700 text-gray-300 transition" id="btn-Lab">🔬 Labs</button>
+                            <button onclick="filterNotices('all')" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-emerald-500 text-gray-950 transition cursor-pointer" id="btn-all">All Updates</button>
+                            <button onclick="filterNotices('Exam')" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-800 hover:bg-gray-700 text-gray-300 transition cursor-pointer" id="btn-Exam">📝 Exams</button>
+                            <button onclick="filterNotices('Class')" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-800 hover:bg-gray-700 text-gray-300 transition cursor-pointer" id="btn-Class">📚 Classes</button>
+                            <button onclick="filterNotices('Lab')" class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-800 hover:bg-gray-700 text-gray-300 transition cursor-pointer" id="btn-Lab">🔬 Labs</button>
                         </div>
                     </div>
 
+                    <!-- Notices Container -->
                     <div class="space-y-4" id="notices-container">
-                        </div>
+                        <!-- JS loader -->
+                    </div>
                 </div>
 
+                <!-- Right Column: Sidebar -->
                 <div class="space-y-6">
+                    <!-- Official Notices -->
                     <div class="bg-gray-950 p-5 rounded-xl border border-amber-500/20 shadow-lg shadow-amber-500/5">
                         <h3 class="text-base font-bold text-amber-400 mb-4 flex items-center gap-2 uppercase tracking-wide mono">
                             🏛️ Official Notices
                         </h3>
                         <div class="space-y-3" id="official-notices-container">
-                            </div>
+                            <!-- JS loader -->
+                        </div>
                     </div>
 
+                    <!-- Deadlines -->
                     <div class="bg-gray-950 p-5 rounded-xl border border-gray-800">
                         <h3 class="text-base font-bold text-rose-400 mb-4 flex items-center gap-2 uppercase tracking-wide mono">
                             🚨 Urgent Deadlines
                         </h3>
                         <div class="space-y-4" id="deadlines-container">
-                            </div>
+                            <!-- JS loader -->
+                        </div>
                     </div>
 
+                    <!-- Cloud Drive Section -->
                     <div class="bg-gray-950 p-5 rounded-xl border border-gray-800">
                         <h3 class="text-base font-bold text-sky-400 mb-4 uppercase tracking-wide mono">📂 Drive & Materials</h3>
                         <ul class="space-y-3 text-sm" id="vault-items-container">
-                            </ul>
+                            <!-- Dynamic Content Loaded Here via JS -->
+                        </ul>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
+    <!-- Student Registration Form Modal -->
     <div id="student-entry-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-gray-950 border border-gray-800 rounded-xl max-w-md w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center">
                 <h3 class="text-lg font-bold text-sky-400">Student Profile Setup</h3>
-                <button onclick="toggleModal('student-entry-modal')" class="text-gray-400 hover:text-white text-xl">&times;</button>
+                <button onclick="toggleModal('student-entry-modal')" class="text-gray-400 hover:text-white text-xl cursor-pointer">&times;</button>
             </div>
             <p class="text-xs text-gray-500">Fill your information. Fields are entirely optional.</p>
             <form id="student-form" onsubmit="saveStudentProfile(event)" class="space-y-3">
@@ -134,54 +154,55 @@
                     <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider mono">Upload Profile Picture (Browse)</label>
                     <input type="file" id="stud-pic-file" accept="image/*" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-gray-400 focus:outline-none focus:border-sky-500 file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-sky-500/10 file:text-sky-400 hover:file:bg-sky-500/20 cursor-pointer">
                 </div>
-                <button type="submit" class="w-full bg-sky-500 hover:bg-sky-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-2">
+                <button type="submit" class="w-full bg-sky-500 hover:bg-sky-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-2 cursor-pointer">
                     Submit Profile
                 </button>
             </form>
         </div>
     </div>
 
+    <!-- Admin Form Modal (Share Update Menu) -->
     <div id="admin-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-gray-950 border border-gray-800 rounded-xl max-w-md w-full p-6 space-y-4">
             <div class="flex justify-between items-center">
                 <h3 class="text-lg font-bold text-emerald-400">Create New Post</h3>
-                <button onclick="toggleModal('admin-modal')" class="text-gray-400 hover:text-white text-xl">&times;</button>
+                <button onclick="toggleModal('admin-modal')" class="text-gray-400 hover:text-white text-xl cursor-pointer">&times;</button>
             </div>
-            <form id="notice-form" onsubmit="saveNotice(event)" class="space-y-3">
+            <form id="notice-form" onsubmit="saveNotice(event)" class="space-y-4">
                 <div>
                     <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider mono">Topic / Title</label>
-                    <input type="text" id="form-title" placeholder="e.g., URP 1101 Introduction Class" required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-emerald-500 placeholder-gray-600">
+                    <input type="text" id="form-title" placeholder="e.g., URP 1101 Assignment Submission" required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-emerald-500 placeholder-gray-600">
                 </div>
                 <div>
                     <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider mono">Details</label>
-                    <textarea id="form-desc" rows="3" placeholder="Write details here..." required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-emerald-500 placeholder-gray-600"></textarea>
+                    <textarea id="form-desc" rows="3" placeholder="Write specific instruction details here..." required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-emerald-500 placeholder-gray-600"></textarea>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider mono">Category</label>
-                        <select id="form-category" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-emerald-500">
-                            <option value="General">📌 General Notice</option>
-                            <option value="Exam">📝 Exams</option>
-                            <option value="Class">📚 Classes</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider mono">Deadline (Optional)</label>
-                        <input type="datetime-local" id="form-deadline" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-emerald-500">
-                    </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider mono">Category Selector</label>
+                    <select id="form-category" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                        <option value="General">📌 General Notice</option>
+                        <option value="Exam">📝 Exams</option>
+                        <option value="Class">📚 Classes</option>
+                    </select>
                 </div>
-                <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-2">
+                <!-- RENDERED VISUAL DEADLINE BLOCK -->
+                <div class="p-3 bg-gray-900 border border-dashed border-gray-800 rounded-xl space-y-1.5">
+                    <label class="block text-[11px] font-bold text-rose-400 uppercase tracking-wider mono">⏰ Set Urgent Deadline Countdown (Optional)</label>
+                    <input type="datetime-local" id="form-deadline" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-rose-500 cursor-pointer">
+                </div>
+                <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-1 cursor-pointer">
                     Publish Post
                 </button>
             </form>
         </div>
     </div>
 
+    <!-- Official Notice Modal -->
     <div id="official-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-gray-950 border border-amber-500/30 rounded-xl max-w-md w-full p-6 space-y-4">
             <div class="flex justify-between items-center">
                 <h3 class="text-lg font-bold text-amber-400">Add Official University Notice</h3>
-                <button onclick="toggleModal('official-modal')" class="text-gray-400 hover:text-white text-xl">&times;</button>
+                <button onclick="toggleModal('official-modal')" class="text-gray-400 hover:text-white text-xl cursor-pointer">&times;</button>
             </div>
             <form id="official-form" onsubmit="saveOfficialNotice(event)" class="space-y-3">
                 <div>
@@ -192,18 +213,19 @@
                     <label class="block text-xs text-amber-400 mb-1 uppercase tracking-wider mono">Attachment Link</label>
                     <input type="url" id="official-link" placeholder="https://drive.google.com/..." class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-amber-500 placeholder-gray-600">
                 </div>
-                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-2">
+                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-2 cursor-pointer">
                     Publish Official Notice
                 </button>
             </form>
         </div>
     </div>
 
+    <!-- Dynamic Manager Modal for Books & Software Links -->
     <div id="vault-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-gray-950 border border-teal-500/30 rounded-xl max-w-md w-full p-6 space-y-4">
             <div class="flex justify-between items-center">
                 <h3 class="text-lg font-bold text-teal-400">Update Materials & Links</h3>
-                <button onclick="toggleModal('vault-modal')" class="text-gray-400 hover:text-white text-xl">&times;</button>
+                <button onclick="toggleModal('vault-modal')" class="text-gray-400 hover:text-white text-xl cursor-pointer">&times;</button>
             </div>
             <form id="vault-form" onsubmit="saveVaultItem(event)" class="space-y-3">
                 <div>
@@ -217,13 +239,14 @@
                     <label class="block text-xs text-teal-400 mb-1 uppercase tracking-wider mono">New Google Drive Cloud URL</label>
                     <input type="url" id="vault-link" placeholder="https://drive.google.com/..." required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-teal-500 placeholder-gray-600">
                 </div>
-                <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-2">
+                <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-2 cursor-pointer">
                     Update Active Link
                 </button>
             </form>
         </div>
     </div>
 
+    <!-- WEBSITE BOTTOM FOOTER WITH ORIGINAL FIXED CREATOR DETAILS -->
     <footer class="w-full py-8 mt-16 bg-gray-950 border-t border-gray-800 text-center text-xs text-gray-500 mono tracking-wide">
         <div class="container mx-auto px-4 space-y-3">
             <p>© 2026 KUET URP '25 Student Hub. All Rights Reserved.</p>
@@ -236,14 +259,13 @@
         </div>
     </footer>
 
+    <!-- JavaScript Engine -->
     <script>
         const defaultNotices = [
             { id: 1, title: "Welcome to KUET URP '25 Student Hub!", desc: "This is our digital commons for routines, exams, and announcements.", category: "General", date: "Jun 25, 2026", deadline: "" }
         ];
 
         const defaultOfficialNotices = [];
-        
-        // Setup initial configurations for target structural links
         const defaultVaultItems = [
             { id: 101, title: "Books & Notes Vault", subtitle: "Shared cloud drive links", link: "#" },
             { id: 102, title: "Software Setup Guide", subtitle: "ArcGIS, QGIS, and Spatial libraries", link: "#" }
@@ -257,11 +279,15 @@
         let currentFilter = 'all';
         const ADMIN_PASSWORD = "kueturp25";
 
+        // Central Modal Control Manager
         function toggleModal(modalId) {
             const modal = document.getElementById(modalId);
-            if(modal) modal.classList.toggle('hidden');
+            if(modal) {
+                modal.classList.toggle('hidden');
+            }
         }
 
+        // Dedicated Passwords Callers Bound perfectly to triggers
         function toggleAdminModal() {
             const password = prompt("Enter Admin Password to Upload Notice:");
             if (password === ADMIN_PASSWORD) toggleModal('admin-modal');
@@ -358,7 +384,7 @@
                             </div>
                             <h4 class="text-sm font-bold text-gray-200 leading-snug">${notice.title}</h4>
                             <p class="text-xs text-gray-400 mt-1 leading-relaxed">${notice.desc}</p>
-                            <button onclick="deleteNotice(${notice.id})" class="absolute top-2 right-2 text-gray-600 hover:text-rose-400 text-[10px] opacity-0 group-hover:opacity-100 transition mono">✕ Delete</button>
+                            <button onclick="deleteNotice(${notice.id})" class="absolute top-2 right-2 text-gray-600 hover:text-rose-400 text-[10px] opacity-0 group-hover:opacity-100 transition mono cursor-pointer">✕ Delete</button>
                         </div>
                     `;
                 });
@@ -388,7 +414,7 @@
                             </div>
                             <h4 class="text-lg font-bold text-gray-100 mb-2">${notice.title}</h4>
                             <p class="text-sm text-gray-400 leading-relaxed">${notice.desc}</p>
-                            <button onclick="deleteNotice(${notice.id})" class="absolute top-4 right-4 text-gray-600 hover:text-rose-400 text-xs opacity-0 group-hover:opacity-100 transition mono">✕ Delete</button>
+                            <button onclick="deleteNotice(${notice.id})" class="absolute top-4 right-4 text-gray-600 hover:text-rose-400 text-xs opacity-0 group-hover:opacity-100 transition mono cursor-pointer">✕ Delete</button>
                         </div>
                     `;
                 });
@@ -540,7 +566,7 @@
                         <span class="text-[10px] text-gray-500 mono block mb-1">${n.date}</span>
                         <h4 class="text-sm font-semibold text-gray-200 leading-snug">${n.title}</h4>
                         ${linkButton}
-                        <button onclick="deleteOfficialNotice(${n.id})" class="absolute top-2 right-2 text-gray-600 hover:text-rose-400 text-[10px] opacity-0 group-hover:opacity-100 transition mono">✕ Delete</button>
+                        <button onclick="deleteOfficialNotice(${n.id})" class="absolute top-2 right-2 text-gray-600 hover:text-rose-400 text-[10px] opacity-0 group-hover:opacity-100 transition mono cursor-pointer">✕ Delete</button>
                     </div>
                 `;
             });

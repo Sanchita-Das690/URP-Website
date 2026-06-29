@@ -24,6 +24,9 @@
                     <button onclick="toggleModal('student-entry-modal')" class="bg-sky-600 hover:bg-sky-700 text-sm px-3 py-1.5 rounded-lg text-white transition flex items-center gap-1.5 font-medium whitespace-nowrap">
                         👤 Student Portal Form
                     </button>
+                    <button onclick="toggleVaultModal()" class="bg-teal-600 hover:bg-teal-700 text-sm px-3 py-1.5 rounded-lg text-white transition flex items-center gap-1.5 font-medium whitespace-nowrap">
+                        📂 Update Drive/Software Link
+                    </button>
                     <button onclick="toggleOfficialModal()" class="bg-amber-600 hover:bg-amber-700 text-sm px-3 py-1.5 rounded-lg text-white transition flex items-center gap-1.5 font-medium whitespace-nowrap">
                         🏛️ Add Official Notice
                     </button>
@@ -95,20 +98,8 @@
 
                     <div class="bg-gray-950 p-5 rounded-xl border border-gray-800">
                         <h3 class="text-base font-bold text-sky-400 mb-4 uppercase tracking-wide mono">📂 Drive & Materials</h3>
-                        <ul class="space-y-3 text-sm">
-                            <li>
-                                <a href="#" class="block p-3 bg-gray-900 hover:bg-gray-800 rounded-lg border border-gray-800 transition">
-                                    <span class="font-semibold block text-gray-200">Books & Notes Vault</span>
-                                    <span class="text-xs text-gray-500">Shared cloud drive links</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="block p-3 bg-gray-900 hover:bg-gray-800 rounded-lg border border-gray-800 transition">
-                                    <span class="font-semibold block text-gray-200">Software Setup Guide</span>
-                                    <span class="text-xs text-gray-500">ArcGIS, QGIS, and Spatial libraries</span>
-                                </a>
-                            </li>
-                        </ul>
+                        <ul class="space-y-3 text-sm" id="vault-items-container">
+                            </ul>
                     </div>
                 </div>
             </div>
@@ -208,6 +199,31 @@
         </div>
     </div>
 
+    <div id="vault-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-gray-950 border border-teal-500/30 rounded-xl max-w-md w-full p-6 space-y-4">
+            <div class="flex justify-between items-center">
+                <h3 class="text-lg font-bold text-teal-400">Update Materials & Links</h3>
+                <button onclick="toggleModal('vault-modal')" class="text-gray-400 hover:text-white text-xl">&times;</button>
+            </div>
+            <form id="vault-form" onsubmit="saveVaultItem(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs text-teal-400 mb-1 uppercase tracking-wider mono">Select Option to Update</label>
+                    <select id="vault-target-id" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-teal-500">
+                        <option value="101">📚 Books & Notes Vault</option>
+                        <option value="102">🔬 Software Setup Guide</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs text-teal-400 mb-1 uppercase tracking-wider mono">New Google Drive Cloud URL</label>
+                    <input type="url" id="vault-link" placeholder="https://drive.google.com/..." required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-teal-500 placeholder-gray-600">
+                </div>
+                <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-2">
+                    Update Active Link
+                </button>
+            </form>
+        </div>
+    </div>
+
     <footer class="w-full py-8 mt-16 bg-gray-950 border-t border-gray-800 text-center text-xs text-gray-500 mono tracking-wide">
         <div class="container mx-auto px-4 space-y-3">
             <p>© 2026 KUET URP '25 Student Hub. All Rights Reserved.</p>
@@ -215,7 +231,7 @@
                 <span class="text-gray-400">⚖️ Copyright & Patent Protected by Creator:</span>
                 <span class="text-emerald-400 font-bold tracking-wider hover:underline cursor-pointer">Sanchita Das</span>
                 <span class="hidden sm:inline text-gray-700">|</span>
-                <span class="text-gray-400 font-medium">Department of Urban and Regional Planning (URP), KUET</span>
+                <span class="text-gray-400 font-medium">Department of Urban and Rural Planning (URP), KUET</span>
             </div>
         </div>
     </footer>
@@ -225,31 +241,27 @@
             { id: 1, title: "Welcome to KUET URP '25 Student Hub!", desc: "This is our digital commons for routines, exams, and announcements.", category: "General", date: "Jun 25, 2026", deadline: "" }
         ];
 
-        // Default list is kept completely clean and empty
         const defaultOfficialNotices = [];
-
-        // HARD OVERRIDE TO CLEAR PREVIOUS LOCALSTORAGE OVERLAP REMNANTS
-        if (localStorage.getItem('urp_official_notices')) {
-            let existingOfficials = JSON.parse(localStorage.getItem('urp_official_notices'));
-            // Filter out the residual dummy notice titled "Registration Notice for Upcoming Semester"
-            let filteredOfficials = existingOfficials.filter(n => !n.title.includes("Registration Notice"));
-            localStorage.setItem('urp_official_notices', JSON.stringify(filteredOfficials));
-        }
+        
+        // Setup initial configurations for target structural links
+        const defaultVaultItems = [
+            { id: 101, title: "Books & Notes Vault", subtitle: "Shared cloud drive links", link: "#" },
+            { id: 102, title: "Software Setup Guide", subtitle: "ArcGIS, QGIS, and Spatial libraries", link: "#" }
+        ];
 
         let notices = JSON.parse(localStorage.getItem('urp_notices')) || defaultNotices;
         let officialNotices = JSON.parse(localStorage.getItem('urp_official_notices')) || defaultOfficialNotices;
+        let vaultItems = JSON.parse(localStorage.getItem('urp_vault_items')) || defaultVaultItems;
         let customStudents = JSON.parse(localStorage.getItem('urp_custom_students')) || [];
         
         let currentFilter = 'all';
         const ADMIN_PASSWORD = "kueturp25";
 
-        // Global Modal Visibility Toggle
         function toggleModal(modalId) {
             const modal = document.getElementById(modalId);
             if(modal) modal.classList.toggle('hidden');
         }
 
-        // Specific Admin Overrides matched with layout actions
         function toggleAdminModal() {
             const password = prompt("Enter Admin Password to Upload Notice:");
             if (password === ADMIN_PASSWORD) toggleModal('admin-modal');
@@ -262,14 +274,16 @@
             else if (password !== null) alert("Wrong Password! Access Denied.");
         }
 
+        function toggleVaultModal() {
+            const password = prompt("Enter Admin Password to Update Drive Links:");
+            if (password === ADMIN_PASSWORD) toggleModal('vault-modal');
+            else if (password !== null) alert("Wrong Password! Access Denied.");
+        }
+
         function saveStudentProfile(e) {
             e.preventDefault();
-            
             let roll = document.getElementById('stud-roll').value.trim();
-            if(!roll) {
-                roll = "TEMP-" + Date.now().toString().slice(-4);
-            }
-
+            if(!roll) roll = "TEMP-" + Date.now().toString().slice(-4);
             const fileInput = document.getElementById('stud-pic-file');
             const file = fileInput.files[0];
 
@@ -281,13 +295,9 @@
                     phone: document.getElementById('stud-phone').value.trim() || "Not Provided",
                     pic: base64Image || ""
                 };
-
                 const existingIndex = customStudents.findIndex(s => s.id.toLowerCase() === roll.toLowerCase());
-                if(existingIndex !== -1) {
-                    customStudents[existingIndex] = newStudent;
-                } else {
-                    customStudents.push(newStudent);
-                }
+                if(existingIndex !== -1) customStudents[existingIndex] = newStudent;
+                else customStudents.push(newStudent);
 
                 localStorage.setItem('urp_custom_students', JSON.stringify(customStudents));
                 document.getElementById('student-form').reset();
@@ -297,9 +307,7 @@
 
             if (file) {
                 const reader = new FileReader();
-                reader.onloadend = function() {
-                    processAndSave(reader.result);
-                }
+                reader.onloadend = function() { processAndSave(reader.result); }
                 reader.readAsDataURL(file);
             } else {
                 processAndSave("");
@@ -309,14 +317,9 @@
         function searchStudentProfile() {
             const query = document.getElementById('search-roll-input').value.trim().toLowerCase();
             const resultDisplay = document.getElementById('search-result-display');
-            
-            if(!query) {
-                resultDisplay.classList.add('hidden');
-                return;
-            }
+            if(!query) { resultDisplay.classList.add('hidden'); return; }
 
             const student = customStudents.find(s => s.id.toLowerCase() === query || s.name.toLowerCase().includes(query));
-
             resultDisplay.classList.remove('hidden');
             if(student) {
                 const avatar = student.pic ? student.pic : 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=120&h=120&q=80';
@@ -334,9 +337,7 @@
                     </div>
                 `;
             } else {
-                resultDisplay.innerHTML = `
-                    <p class="text-xs text-rose-400 text-center mono">❌ No student profile found matching query "${query}". Add it via the Student Portal Form button!</p>
-                `;
+                resultDisplay.innerHTML = `<p class="text-xs text-rose-400 text-center mono">❌ No student profile found matching query "${query}". Add it via the Student Portal Form button!</p>`;
             }
         }
 
@@ -365,7 +366,6 @@
 
             const container = document.getElementById('notices-container');
             container.innerHTML = '';
-
             if(currentFilter === 'Lab') {
                 container.innerHTML = `<div class="text-center py-12 text-gray-500 text-sm mono border border-dashed border-gray-800 rounded-xl bg-gray-950/40">🔬 Labs content is currently empty.</div>`;
                 return;
@@ -380,7 +380,6 @@
                 filtered.forEach(notice => {
                     let badgeColor = notice.category === 'Exam' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-amber-500/10 text-amber-400 border-amber-500/20';
                     let badgeText = notice.category === 'Exam' ? '📝 Exam' : '📚 Class';
-
                     container.innerHTML += `
                         <div class="bg-gray-950 p-5 rounded-xl border border-gray-800 relative group hover:border-gray-700 transition">
                             <div class="flex justify-between items-start gap-4 mb-2">
@@ -397,6 +396,53 @@
 
             renderDeadlines();
             renderOfficialNotices();
+            renderVaultItems();
+        }
+
+        function saveVaultItem(e) {
+            e.preventDefault();
+            const targetId = parseInt(document.getElementById('vault-target-id').value);
+            const newLink = document.getElementById('vault-link').value.trim();
+
+            const targetIndex = vaultItems.findIndex(item => item.id === targetId);
+            if (targetIndex !== -1) {
+                vaultItems[targetIndex].link = newLink;
+                localStorage.setItem('urp_vault_items', JSON.stringify(vaultItems));
+                alert(`${vaultItems[targetIndex].title} Link successfully synchronized!`);
+            }
+            
+            document.getElementById('vault-form').reset();
+            toggleModal('vault-modal');
+            renderVaultItems();
+        }
+
+        function renderVaultItems() {
+            const container = document.getElementById('vault-items-container');
+            container.innerHTML = '';
+            
+            vaultItems.forEach(item => {
+                let url = item.link.trim();
+                let isClickable = url !== "#" && url !== "";
+                
+                if (isClickable && !url.startsWith('http://') && !url.startsWith('https://')) {
+                    url = 'https://' + url;
+                }
+
+                let statusBadge = isClickable 
+                    ? '<span class="text-[10px] font-mono text-emerald-400 tracking-tight mt-1 flex items-center gap-1">🟢 Cloud Drive Link Active</span>' 
+                    : '<span class="text-[10px] font-mono text-gray-600 tracking-tight mt-1 flex items-center gap-1">⚪ No active link bound yet</span>';
+                
+                container.innerHTML += `
+                    <li>
+                        <a ${isClickable ? `href="${url}" target="_blank" rel="noopener noreferrer"` : 'href="#" onclick="alert(\'Admin has not uploaded any link yet!\'); return false;"'} 
+                           class="block p-3 bg-gray-900 hover:bg-gray-800 rounded-lg border border-gray-800 hover:border-sky-500/30 transition group">
+                            <span class="font-semibold block text-gray-200 group-hover:text-sky-400 transition">${item.title}</span>
+                            <span class="text-xs text-gray-400 block">${item.subtitle}</span>
+                            ${statusBadge}
+                        </a>
+                    </li>
+                `;
+            });
         }
 
         function filterNotices(category) {
@@ -429,10 +475,8 @@
                 date: new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }),
                 deadline: deadline ? new Date(deadline).toISOString() : ""
             };
-
             notices.unshift(newNotice);
             localStorage.setItem('urp_notices', JSON.stringify(notices));
-            
             document.getElementById('notice-form').reset();
             toggleModal('admin-modal');
             renderNotices();
@@ -449,10 +493,8 @@
                 link,
                 date: new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })
             };
-
             officialNotices.unshift(newOfficial);
             localStorage.setItem('urp_official_notices', JSON.stringify(officialNotices));
-
             document.getElementById('official-form').reset();
             toggleModal('official-modal');
             renderNotices();
@@ -492,7 +534,6 @@
                 if (targetLink !== "#" && !targetLink.startsWith('http://') && !targetLink.startsWith('https://')) {
                     targetLink = 'https://' + targetLink;
                 }
-
                 let linkButton = n.link !== "#" ? `<a href="${targetLink}" target="_blank" rel="noopener noreferrer" class="mt-2 inline-flex items-center gap-1 text-xs text-amber-400 hover:underline mono">📥 View Attachment</a>` : '';
                 container.innerHTML += `
                     <div class="p-3.5 bg-gray-900 rounded-lg border border-gray-800 relative group transition">
@@ -529,9 +570,8 @@
                 const target = new Date(el.getAttribute('data-time')).getTime();
                 const now = new Date().getTime();
                 const diff = target - now;
-                if (diff <= 0) {
-                    el.innerText = "Deadline Passed!";
-                } else {
+                if (diff <= 0) el.innerText = "Deadline Passed!";
+                else {
                     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
                     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                     const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
@@ -544,5 +584,4 @@
         renderNotices();
     </script>
 </body>
-</html> 
-      
+</html>

@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KUET URP '25 Student Hub</title>
+    <!-- Tailwind CSS for modern UI -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght=400;500;700&family=Plus+Jakarta+Sans:wght=400;600;700&display=swap');
@@ -14,6 +15,7 @@
 <body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col justify-between">
 
     <div>
+        <!-- Header Section -->
         <header class="border-b border-gray-800 bg-gray-950 sticky top-0 z-50">
             <div class="container mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
@@ -39,6 +41,7 @@
 
         <main class="container mx-auto px-4 py-8 max-w-5xl space-y-8">
             
+            <!-- Student Search Engine Box -->
             <div class="bg-gray-950 p-6 rounded-xl border border-sky-500/30 shadow-lg shadow-sky-500/5">
                 <div class="max-w-xl mx-auto text-center space-y-4">
                     <h3 class="text-lg font-bold text-sky-400 uppercase tracking-wide mono">🔍 Student Directory Search</h3>
@@ -48,13 +51,17 @@
                         <button onclick="searchStudentProfile()" class="bg-sky-500 hover:bg-sky-600 text-gray-950 font-bold px-6 py-2 rounded-lg text-sm transition cursor-pointer">Search</button>
                     </div>
                     
+                    <!-- Search Results Area -->
                     <div id="search-result-display" class="hidden mt-6 p-4 bg-gray-900 rounded-xl border border-gray-800 text-left transition-all duration-300"></div>
                 </div>
             </div>
 
+            <!-- Main Grid Layout -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 
+                <!-- Left Column: Notice Board & Filters -->
                 <div class="md:col-span-2 space-y-6">
+                    <!-- Pinned General Notice Board -->
                     <div class="bg-gray-950 p-5 rounded-xl border border-emerald-500/20 shadow-lg shadow-emerald-500/5">
                         <h3 class="text-base font-bold text-emerald-400 mb-4 flex items-center gap-2 uppercase tracking-wide mono">
                             📌 General Notices
@@ -62,6 +69,7 @@
                         <div class="space-y-3" id="general-notices-container"></div>
                     </div>
 
+                    <!-- Filter Buttons -->
                     <div class="bg-gray-950 p-4 rounded-xl border border-gray-800">
                         <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 mono">Filter Feed</h3>
                         <div class="flex flex-wrap gap-2" id="filter-container">
@@ -72,10 +80,13 @@
                         </div>
                     </div>
 
+                    <!-- Notices Container -->
                     <div class="space-y-4" id="notices-container"></div>
                 </div>
 
+                <!-- Right Column: Sidebar -->
                 <div class="space-y-6">
+                    <!-- Official Notices -->
                     <div class="bg-gray-950 p-5 rounded-xl border border-amber-500/20 shadow-lg shadow-amber-500/5">
                         <h3 class="text-base font-bold text-amber-400 mb-4 flex items-center gap-2 uppercase tracking-wide mono">
                             🏛️ Official Notices
@@ -83,6 +94,7 @@
                         <div class="space-y-3" id="official-notices-container"></div>
                     </div>
 
+                    <!-- Deadlines Panel -->
                     <div class="bg-gray-950 p-5 rounded-xl border border-gray-800">
                         <h3 class="text-base font-bold text-rose-400 mb-4 flex items-center gap-2 uppercase tracking-wide mono">
                             🚨 Urgent Deadlines
@@ -90,6 +102,7 @@
                         <div class="space-y-4" id="deadlines-container"></div>
                     </div>
 
+                    <!-- MULTI-VAULT & YOUTUBE SYSTEM REPOSITORY -->
                     <div class="bg-gray-950 p-5 rounded-xl border border-gray-800 space-y-6">
                         <div>
                             <h3 class="text-sm font-bold text-sky-400 uppercase tracking-wide mono mb-3 flex items-center gap-1.5">📚 Books & Notes Vault</h3>
@@ -99,12 +112,18 @@
                             <h3 class="text-sm font-bold text-teal-400 uppercase tracking-wide mono mb-3 flex items-center gap-1.5">🔬 Software Setup Guide</h3>
                             <ul class="space-y-2 text-xs" id="software-items-container"></ul>
                         </div>
+                        <!-- NEWLY INTEGRATED DYNAMIC YOUTUBE TUTORIAL SECTION -->
+                        <div class="border-t border-gray-800/80 pt-4">
+                            <h3 class="text-sm font-bold text-red-400 uppercase tracking-wide mono mb-3 flex items-center gap-1.5">🎬 Video Tutorials Hub</h3>
+                            <ul class="space-y-2 text-xs" id="youtube-items-container"></ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
+    <!-- Student Registration Form Modal -->
     <div id="student-entry-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-gray-950 border border-gray-800 rounded-xl max-w-md w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center">
@@ -138,6 +157,7 @@
         </div>
     </div>
 
+    <!-- Create New Post Modal -->
     <div id="admin-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-gray-950 border border-gray-800 rounded-xl max-w-md w-full p-6 space-y-4">
             <div class="flex justify-between items-center">
@@ -170,6 +190,7 @@
         </div>
     </div>
 
+    <!-- Official Notice Modal -->
     <div id="official-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-gray-950 border border-amber-500/30 rounded-xl max-w-md w-full p-6 space-y-4">
             <div class="flex justify-between items-center">
@@ -190,6 +211,7 @@
         </div>
     </div>
 
+    <!-- UPGRADED SUBSCRIPTION VAULT MODAL -->
     <div id="vault-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-gray-950 border border-teal-500/30 rounded-xl max-w-md w-full p-6 space-y-4">
             <div class="flex justify-between items-center">
@@ -202,18 +224,19 @@
                     <select id="vault-category" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-teal-500">
                         <option value="book">📚 Books & Notes</option>
                         <option value="software">🔬 Software Setup Guide</option>
+                        <option value="youtube">🎬 YouTube Tutorials</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs text-teal-400 mb-1 uppercase tracking-wider mono">Item Title / Name</label>
-                    <input type="text" id="vault-title" placeholder="e.g., ArcGIS Pro 3.1 Setup or URP Fundamentals Book" required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-teal-500 placeholder-gray-600">
+                    <label class="block text-xs text-teal-400 mb-1 uppercase tracking-wider mono">Item Title / Course Name</label>
+                    <input type="text" id="vault-title" placeholder="e.g., Python Core Course - Apna College" required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-teal-500 placeholder-gray-600">
                 </div>
                 <div>
-                    <label class="block text-xs text-teal-400 mb-1 uppercase tracking-wider mono">Google Drive / Cloud URL</label>
-                    <input type="url" id="vault-link" placeholder="https://drive.google.com/..." required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-teal-500 placeholder-gray-600">
+                    <label class="block text-xs text-teal-400 mb-1 uppercase tracking-wider mono">Resource URL (Drive/YouTube Link)</label>
+                    <input type="url" id="vault-link" placeholder="https://youtube.com/playlist?list=..." required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-teal-500 placeholder-gray-600">
                 </div>
                 <div class="p-3 bg-gray-900 border border-dashed border-gray-800 rounded-xl space-y-1.5">
-                    <label class="block text-[11px] font-bold text-rose-400 uppercase tracking-wider mono">⏰ Set Resource/Download Deadline (Optional)</label>
+                    <label class="block text-[11px] font-bold text-rose-400 uppercase tracking-wider mono">⏰ Set Target Deadline Countdown (Optional)</label>
                     <input type="datetime-local" id="vault-deadline" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-rose-500 cursor-pointer">
                 </div>
                 <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-2 cursor-pointer">Upload Resource Link</button>
@@ -221,6 +244,7 @@
         </div>
     </div>
 
+    <!-- WEBSITE BOTTOM FOOTER -->
     <footer class="w-full py-8 mt-16 bg-gray-950 border-t border-gray-800 text-center text-xs text-gray-500 mono tracking-wide">
         <div class="container mx-auto px-4 space-y-3">
             <p>© 2026 KUET URP '25 Student Hub. All Rights Reserved.</p>
@@ -233,14 +257,18 @@
         </div>
     </footer>
 
+    <!-- JavaScript Engine -->
     <script>
         const defaultNotices = [
             { id: 1, title: "Welcome to KUET URP '25 Student Hub!", desc: "This is our digital commons for routines, exams, and announcements.", category: "General", date: "Jun 25, 2026", deadline: "" }
         ];
         const defaultOfficialNotices = [];
+        
+        // System repository arrays with fallback items
         const defaultVaultItems = [
             { id: 1001, type: "book", title: "URP Planning Principles (PDF)", link: "https://drive.google.com", deadline: "" },
-            { id: 1002, type: "software", title: "ArcGIS Desktop + Crack Pack", link: "https://drive.google.com", deadline: "" }
+            { id: 1002, type: "software", title: "ArcGIS Desktop + Crack Pack", link: "https://drive.google.com", deadline: "" },
+            { id: 1003, type: "youtube", title: "Python Fundamentals - Core Playlist", link: "https://youtube.com", deadline: "" }
         ];
 
         let notices = JSON.parse(localStorage.getItem('urp_notices')) || defaultNotices;
@@ -269,7 +297,7 @@
         }
 
         function toggleVaultModal() {
-            const password = prompt("Enter Admin Password to Update Drive Links:");
+            const password = prompt("Enter Admin Password to Update Repository Links:");
             if (password === ADMIN_PASSWORD) toggleModal('vault-modal');
             else if (password !== null) alert("Wrong Password! Access Denied.");
         }
@@ -393,7 +421,6 @@
             renderVaultItems();
         }
 
-        // Updated pipeline to store vault individual deadline configurations
         function saveVaultItem(e) {
             e.preventDefault();
             const type = document.getElementById('vault-category').value;
@@ -411,7 +438,7 @@
             vaultItems.unshift(newItem);
             
             localStorage.setItem('urp_vault_items', JSON.stringify(vaultItems));
-            alert("New dynamic resource + deadline tracking successfully configured!");
+            alert("New resource asset successfully bound to system database!");
             
             document.getElementById('vault-form').reset();
             toggleModal('vault-modal');
@@ -430,12 +457,15 @@
         function renderVaultItems() {
             const booksContainer = document.getElementById('books-items-container');
             const softwareContainer = document.getElementById('software-items-container');
+            const youtubeContainer = document.getElementById('youtube-items-container');
             
             booksContainer.innerHTML = '';
             softwareContainer.innerHTML = '';
+            youtubeContainer.innerHTML = '';
 
             const books = vaultItems.filter(item => item.type === 'book');
             const software = vaultItems.filter(item => item.type === 'software');
+            const youtube = vaultItems.filter(item => item.type === 'youtube');
 
             if(books.length === 0) {
                 booksContainer.innerHTML = '<li class="text-gray-600 italic text-[11px] mono">No link modules uploaded yet</li>';
@@ -457,6 +487,18 @@
                         <li class="flex items-center justify-between gap-2 p-2 bg-gray-900 rounded border border-gray-800/80 group hover:border-teal-500/30 transition">
                             <a href="${s.link}" target="_blank" rel="noopener noreferrer" class="truncate text-gray-300 hover:text-teal-400 transition font-medium block flex-1">${s.title}</a>
                             <button onclick="deleteVaultItem(${s.id})" class="text-gray-600 hover:text-rose-400 opacity-0 group-hover:opacity-100 text-[10px] mono transition ml-2 cursor-pointer">✕ Delete</button>
+                        </li>`;
+                });
+            }
+
+            if(youtube.length === 0) {
+                youtubeContainer.innerHTML = '<li class="text-gray-600 italic text-[11px] mono">No tutorial channels pinned yet</li>';
+            } else {
+                youtube.forEach(y => {
+                    youtubeContainer.innerHTML += `
+                        <li class="flex items-center justify-between gap-2 p-2 bg-gray-900 rounded border border-gray-800/80 group hover:border-red-500/30 transition">
+                            <a href="${y.link}" target="_blank" rel="noopener noreferrer" class="truncate text-gray-300 hover:text-red-400 transition font-medium block flex-1">▶ ${y.title}</a>
+                            <button onclick="deleteVaultItem(${y.id})" class="text-gray-600 hover:text-rose-400 opacity-0 group-hover:opacity-100 text-[10px] mono transition ml-2 cursor-pointer">✕ Delete</button>
                         </li>`;
                 });
             }
@@ -561,7 +603,6 @@
             });
         }
 
-        // CENTRALIZED DEADLINE INTERSECTION: Fetching deadlines both from Notice Board Feed and Cloud Resource Modules!
         function renderDeadlines() {
             const container = document.getElementById('deadlines-container');
             container.innerHTML = '';
@@ -577,7 +618,12 @@
             }
             
             totalActiveDeadlines.forEach(item => {
-                let prefixBadge = item.type ? (item.type === 'book' ? '📚 [Book] ' : '🔬 [Software] ') : '📌 ';
+                let prefixBadge = '📌 ';
+                if (item.type) {
+                    if (item.type === 'book') prefixBadge = '📚 [Book] ';
+                    else if (item.type === 'software') prefixBadge = '🔬 [Soft] ';
+                    else if (item.type === 'youtube') prefixBadge = '🎬 [Video] ';
+                }
                 container.innerHTML += `
                     <div class="p-3 bg-gray-900 rounded-lg border border-gray-800">
                         <span class="text-xs text-gray-400 block truncate font-medium">${prefixBadge}${item.title}</span>
@@ -602,14 +648,8 @@
             });
         }, 1000);
 
-        // Bootstrap App Engine Structure
+        // Run Engine
         renderNotices();
     </script>
 </body>
 </html>
-        
-     
- 
-
-  
-      

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KUET URP '25 Student Hub</title>
-    <!-- Tailwind CSS for modern UI -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght=400;500;700&family=Plus+Jakarta+Sans:wght=400;600;700&display=swap');
@@ -15,7 +14,6 @@
 <body class="bg-gray-900 text-gray-100 min-h-screen flex flex-col justify-between">
 
     <div>
-        <!-- Header Section -->
         <header class="border-b border-gray-800 bg-gray-950 sticky top-0 z-50">
             <div class="container mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
@@ -27,7 +25,7 @@
                         👤 Student Portal Form
                     </button>
                     <button onclick="toggleVaultModal()" class="bg-teal-600 hover:bg-teal-700 text-sm px-3 py-1.5 rounded-lg text-white transition flex items-center gap-1.5 font-medium whitespace-nowrap cursor-pointer">
-                        📂 Update Drive/Software Link
+                        📂 Add/Manage Vault Links
                     </button>
                     <button onclick="toggleOfficialModal()" class="bg-amber-600 hover:bg-amber-700 text-sm px-3 py-1.5 rounded-lg text-white transition flex items-center gap-1.5 font-medium whitespace-nowrap cursor-pointer">
                         🏛️ Add Official Notice
@@ -41,7 +39,6 @@
 
         <main class="container mx-auto px-4 py-8 max-w-5xl space-y-8">
             
-            <!-- INTERACTIVE FEATURE: Student Search Engine Box -->
             <div class="bg-gray-950 p-6 rounded-xl border border-sky-500/30 shadow-lg shadow-sky-500/5">
                 <div class="max-w-xl mx-auto text-center space-y-4">
                     <h3 class="text-lg font-bold text-sky-400 uppercase tracking-wide mono">🔍 Student Directory Search</h3>
@@ -51,30 +48,20 @@
                         <button onclick="searchStudentProfile()" class="bg-sky-500 hover:bg-sky-600 text-gray-950 font-bold px-6 py-2 rounded-lg text-sm transition cursor-pointer">Search</button>
                     </div>
                     
-                    <!-- Search Results Area -->
-                    <div id="search-result-display" class="hidden mt-6 p-4 bg-gray-900 rounded-xl border border-gray-800 text-left transition-all duration-300">
-                        <!-- Loaded dynamically -->
-                    </div>
+                    <div id="search-result-display" class="hidden mt-6 p-4 bg-gray-900 rounded-xl border border-gray-800 text-left transition-all duration-300"></div>
                 </div>
             </div>
 
-            <!-- Main Grid Layout -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 
-                <!-- Left Column: Notice Board & Filters -->
                 <div class="md:col-span-2 space-y-6">
-                    
-                    <!-- Pinned General Notice Board -->
                     <div class="bg-gray-950 p-5 rounded-xl border border-emerald-500/20 shadow-lg shadow-emerald-500/5">
                         <h3 class="text-base font-bold text-emerald-400 mb-4 flex items-center gap-2 uppercase tracking-wide mono">
                             📌 General Notices
                         </h3>
-                        <div class="space-y-3" id="general-notices-container">
-                            <!-- JS loader -->
-                        </div>
+                        <div class="space-y-3" id="general-notices-container"></div>
                     </div>
 
-                    <!-- Filter Buttons -->
                     <div class="bg-gray-950 p-4 rounded-xl border border-gray-800">
                         <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3 mono">Filter Feed</h3>
                         <div class="flex flex-wrap gap-2" id="filter-container">
@@ -85,47 +72,39 @@
                         </div>
                     </div>
 
-                    <!-- Notices Container -->
-                    <div class="space-y-4" id="notices-container">
-                        <!-- JS loader -->
-                    </div>
+                    <div class="space-y-4" id="notices-container"></div>
                 </div>
 
-                <!-- Right Column: Sidebar -->
                 <div class="space-y-6">
-                    <!-- Official Notices -->
                     <div class="bg-gray-950 p-5 rounded-xl border border-amber-500/20 shadow-lg shadow-amber-500/5">
                         <h3 class="text-base font-bold text-amber-400 mb-4 flex items-center gap-2 uppercase tracking-wide mono">
                             🏛️ Official Notices
                         </h3>
-                        <div class="space-y-3" id="official-notices-container">
-                            <!-- JS loader -->
-                        </div>
+                        <div class="space-y-3" id="official-notices-container"></div>
                     </div>
 
-                    <!-- Deadlines -->
                     <div class="bg-gray-950 p-5 rounded-xl border border-gray-800">
                         <h3 class="text-base font-bold text-rose-400 mb-4 flex items-center gap-2 uppercase tracking-wide mono">
                             🚨 Urgent Deadlines
                         </h3>
-                        <div class="space-y-4" id="deadlines-container">
-                            <!-- JS loader -->
-                        </div>
+                        <div class="space-y-4" id="deadlines-container"></div>
                     </div>
 
-                    <!-- Cloud Drive Section -->
-                    <div class="bg-gray-950 p-5 rounded-xl border border-gray-800">
-                        <h3 class="text-base font-bold text-sky-400 mb-4 uppercase tracking-wide mono">📂 Drive & Materials</h3>
-                        <ul class="space-y-3 text-sm" id="vault-items-container">
-                            <!-- Dynamic Content Loaded Here via JS -->
-                        </ul>
+                    <div class="bg-gray-950 p-5 rounded-xl border border-gray-800 space-y-6">
+                        <div>
+                            <h3 class="text-sm font-bold text-sky-400 uppercase tracking-wide mono mb-3 flex items-center gap-1.5">📚 Books & Notes Vault</h3>
+                            <ul class="space-y-2 text-xs" id="books-items-container"></ul>
+                        </div>
+                        <div class="border-t border-gray-800/80 pt-4">
+                            <h3 class="text-sm font-bold text-teal-400 uppercase tracking-wide mono mb-3 flex items-center gap-1.5">🔬 Software Setup Guide</h3>
+                            <ul class="space-y-2 text-xs" id="software-items-container"></ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </main>
     </div>
 
-    <!-- Student Registration Form Modal -->
     <div id="student-entry-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-gray-950 border border-gray-800 rounded-xl max-w-md w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center">
@@ -154,14 +133,11 @@
                     <label class="block text-xs text-gray-400 mb-1 uppercase tracking-wider mono">Upload Profile Picture (Browse)</label>
                     <input type="file" id="stud-pic-file" accept="image/*" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-gray-400 focus:outline-none focus:border-sky-500 file:mr-4 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-sky-500/10 file:text-sky-400 hover:file:bg-sky-500/20 cursor-pointer">
                 </div>
-                <button type="submit" class="w-full bg-sky-500 hover:bg-sky-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-2 cursor-pointer">
-                    Submit Profile
-                </button>
+                <button type="submit" class="w-full bg-sky-500 hover:bg-sky-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-2 cursor-pointer">Submit Profile</button>
             </form>
         </div>
     </div>
 
-    <!-- Admin Form Modal (Share Update Menu) -->
     <div id="admin-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-gray-950 border border-gray-800 rounded-xl max-w-md w-full p-6 space-y-4">
             <div class="flex justify-between items-center">
@@ -185,19 +161,15 @@
                         <option value="Class">📚 Classes</option>
                     </select>
                 </div>
-                <!-- RENDERED VISUAL DEADLINE BLOCK -->
                 <div class="p-3 bg-gray-900 border border-dashed border-gray-800 rounded-xl space-y-1.5">
                     <label class="block text-[11px] font-bold text-rose-400 uppercase tracking-wider mono">⏰ Set Urgent Deadline Countdown (Optional)</label>
                     <input type="datetime-local" id="form-deadline" class="w-full bg-gray-950 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-rose-500 cursor-pointer">
                 </div>
-                <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-1 cursor-pointer">
-                    Publish Post
-                </button>
+                <button type="submit" class="w-full bg-emerald-500 hover:bg-emerald-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-1 cursor-pointer">Publish Post</button>
             </form>
         </div>
     </div>
 
-    <!-- Official Notice Modal -->
     <div id="official-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-gray-950 border border-amber-500/30 rounded-xl max-w-md w-full p-6 space-y-4">
             <div class="flex justify-between items-center">
@@ -213,40 +185,38 @@
                     <label class="block text-xs text-amber-400 mb-1 uppercase tracking-wider mono">Attachment Link</label>
                     <input type="url" id="official-link" placeholder="https://drive.google.com/..." class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-amber-500 placeholder-gray-600">
                 </div>
-                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-2 cursor-pointer">
-                    Publish Official Notice
-                </button>
+                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-2 cursor-pointer">Publish Official Notice</button>
             </form>
         </div>
     </div>
 
-    <!-- Dynamic Manager Modal for Books & Software Links -->
     <div id="vault-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4 z-50">
         <div class="bg-gray-950 border border-teal-500/30 rounded-xl max-w-md w-full p-6 space-y-4">
             <div class="flex justify-between items-center">
-                <h3 class="text-lg font-bold text-teal-400">Update Materials & Links</h3>
+                <h3 class="text-lg font-bold text-teal-400">Add New Resource Item</h3>
                 <button onclick="toggleModal('vault-modal')" class="text-gray-400 hover:text-white text-xl cursor-pointer">&times;</button>
             </div>
             <form id="vault-form" onsubmit="saveVaultItem(event)" class="space-y-3">
                 <div>
-                    <label class="block text-xs text-teal-400 mb-1 uppercase tracking-wider mono">Select Option to Update</label>
-                    <select id="vault-target-id" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-teal-500">
-                        <option value="101">📚 Books & Notes Vault</option>
-                        <option value="102">🔬 Software Setup Guide</option>
+                    <label class="block text-xs text-teal-400 mb-1 uppercase tracking-wider mono">Resource Category</label>
+                    <select id="vault-category" class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-teal-500">
+                        <option value="book">📚 Books & Notes</option>
+                        <option value="software">🔬 Software Setup Guide</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs text-teal-400 mb-1 uppercase tracking-wider mono">New Google Drive Cloud URL</label>
+                    <label class="block text-xs text-teal-400 mb-1 uppercase tracking-wider mono">Item Title / Name</label>
+                    <input type="text" id="vault-title" placeholder="e.g., ArcGIS Pro 3.1 Setup or URP Fundamentals Book" required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-teal-500 placeholder-gray-600">
+                </div>
+                <div>
+                    <label class="block text-xs text-teal-400 mb-1 uppercase tracking-wider mono">Google Drive / Cloud URL</label>
                     <input type="url" id="vault-link" placeholder="https://drive.google.com/..." required class="w-full bg-gray-900 border border-gray-800 rounded-lg p-2 text-sm text-white focus:outline-none focus:border-teal-500 placeholder-gray-600">
                 </div>
-                <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-2 cursor-pointer">
-                    Update Active Link
-                </button>
+                <button type="submit" class="w-full bg-teal-500 hover:bg-teal-600 text-gray-950 font-bold p-2.5 rounded-lg text-sm transition mt-2 cursor-pointer">Upload Resource Link</button>
             </form>
         </div>
     </div>
 
-    <!-- WEBSITE BOTTOM FOOTER WITH ORIGINAL FIXED CREATOR DETAILS -->
     <footer class="w-full py-8 mt-16 bg-gray-950 border-t border-gray-800 text-center text-xs text-gray-500 mono tracking-wide">
         <div class="container mx-auto px-4 space-y-3">
             <p>© 2026 KUET URP '25 Student Hub. All Rights Reserved.</p>
@@ -254,21 +224,21 @@
                 <span class="text-gray-400">⚖️ Copyright & Patent Protected by Creator:</span>
                 <span class="text-emerald-400 font-bold tracking-wider hover:underline cursor-pointer">Sanchita Das</span>
                 <span class="hidden sm:inline text-gray-700">|</span>
-                <span class="text-gray-400 font-medium">Department of Urban and Rural Planning (URP), KUET</span>
+                <span class="text-gray-400 font-medium">Department of Urban and Regional Planning (URP), KUET</span>
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript Engine -->
     <script>
         const defaultNotices = [
             { id: 1, title: "Welcome to KUET URP '25 Student Hub!", desc: "This is our digital commons for routines, exams, and announcements.", category: "General", date: "Jun 25, 2026", deadline: "" }
         ];
-
         const defaultOfficialNotices = [];
+        
+        // Upgraded array pattern structures to accept infinite individual listings
         const defaultVaultItems = [
-            { id: 101, title: "Books & Notes Vault", subtitle: "Shared cloud drive links", link: "#" },
-            { id: 102, title: "Software Setup Guide", subtitle: "ArcGIS, QGIS, and Spatial libraries", link: "#" }
+            { id: 1001, type: "book", title: "URP Planning Principles (PDF)", link: "https://drive.google.com" },
+            { id: 1002, type: "software", title: "ArcGIS Desktop + Crack Pack", link: "https://drive.google.com" }
         ];
 
         let notices = JSON.parse(localStorage.getItem('urp_notices')) || defaultNotices;
@@ -279,15 +249,11 @@
         let currentFilter = 'all';
         const ADMIN_PASSWORD = "kueturp25";
 
-        // Central Modal Control Manager
         function toggleModal(modalId) {
             const modal = document.getElementById(modalId);
-            if(modal) {
-                modal.classList.toggle('hidden');
-            }
+            if(modal) modal.classList.toggle('hidden');
         }
 
-        // Dedicated Passwords Callers Bound perfectly to triggers
         function toggleAdminModal() {
             const password = prompt("Enter Admin Password to Upload Notice:");
             if (password === ADMIN_PASSWORD) toggleModal('admin-modal');
@@ -363,7 +329,7 @@
                     </div>
                 `;
             } else {
-                resultDisplay.innerHTML = `<p class="text-xs text-rose-400 text-center mono">❌ No student profile found matching query "${query}". Add it via the Student Portal Form button!</p>`;
+                resultDisplay.innerHTML = `<p class="text-xs text-rose-400 text-center mono">❌ No student profile found matching query "${query}".</p>`;
             }
         }
 
@@ -425,50 +391,66 @@
             renderVaultItems();
         }
 
+        // Expanded multi items layout processing pipeline
         function saveVaultItem(e) {
             e.preventDefault();
-            const targetId = parseInt(document.getElementById('vault-target-id').value);
-            const newLink = document.getElementById('vault-link').value.trim();
+            const type = document.getElementById('vault-category').value;
+            const title = document.getElementById('vault-title').value.trim();
+            const link = document.getElementById('vault-link').value.trim();
 
-            const targetIndex = vaultItems.findIndex(item => item.id === targetId);
-            if (targetIndex !== -1) {
-                vaultItems[targetIndex].link = newLink;
-                localStorage.setItem('urp_vault_items', JSON.stringify(vaultItems));
-                alert(`${vaultItems[targetIndex].title} Link successfully synchronized!`);
-            }
+            const newItem = { id: Date.now(), type, title, link };
+            vaultItems.unshift(newItem);
+            
+            localStorage.setItem('urp_vault_items', JSON.stringify(vaultItems));
+            alert("New dynamic resource link added to repository list!");
             
             document.getElementById('vault-form').reset();
             toggleModal('vault-modal');
             renderVaultItems();
         }
 
-        function renderVaultItems() {
-            const container = document.getElementById('vault-items-container');
-            container.innerHTML = '';
-            
-            vaultItems.forEach(item => {
-                let url = item.link.trim();
-                let isClickable = url !== "#" && url !== "";
-                
-                if (isClickable && !url.startsWith('http://') && !url.startsWith('https://')) {
-                    url = 'https://' + url;
-                }
+        function deleteVaultItem(id) {
+            const password = prompt("Enter Admin Password to Delete Link:");
+            if (password === ADMIN_PASSWORD) {
+                vaultItems = vaultItems.filter(item => item.id !== id);
+                localStorage.setItem('urp_vault_items', JSON.stringify(vaultItems));
+                renderVaultItems();
+            } else if(password !== null) alert("Access Denied!");
+        }
 
-                let statusBadge = isClickable 
-                    ? '<span class="text-[10px] font-mono text-emerald-400 tracking-tight mt-1 flex items-center gap-1">🟢 Cloud Drive Link Active</span>' 
-                    : '<span class="text-[10px] font-mono text-gray-600 tracking-tight mt-1 flex items-center gap-1">⚪ No active link bound yet</span>';
-                
-                container.innerHTML += `
-                    <li>
-                        <a ${isClickable ? `href="${url}" target="_blank" rel="noopener noreferrer"` : 'href="#" onclick="alert(\'Admin has not uploaded any link yet!\'); return false;"'} 
-                           class="block p-3 bg-gray-900 hover:bg-gray-800 rounded-lg border border-gray-800 hover:border-sky-500/30 transition group">
-                            <span class="font-semibold block text-gray-200 group-hover:text-sky-400 transition">${item.title}</span>
-                            <span class="text-xs text-gray-400 block">${item.subtitle}</span>
-                            ${statusBadge}
-                        </a>
-                    </li>
-                `;
-            });
+        function renderVaultItems() {
+            const booksContainer = document.getElementById('books-items-container');
+            const softwareContainer = document.getElementById('software-items-container');
+            
+            booksContainer.innerHTML = '';
+            softwareContainer.innerHTML = '';
+
+            const books = vaultItems.filter(item => item.type === 'book');
+            const software = vaultItems.filter(item => item.type === 'software');
+
+            if(books.length === 0) {
+                booksContainer.innerHTML = '<li class="text-gray-600 italic text-[11px] mono">No link modules uploaded yet</li>';
+            } else {
+                books.forEach(b => {
+                    booksContainer.innerHTML += `
+                        <li class="flex items-center justify-between gap-2 p-2 bg-gray-900 rounded border border-gray-800/80 group hover:border-sky-500/30 transition">
+                            <a href="${b.link}" target="_blank" rel="noopener noreferrer" class="truncate text-gray-300 hover:text-sky-400 transition font-medium block flex-1">${b.title}</a>
+                            <button onclick="deleteVaultItem(${b.id})" class="text-gray-600 hover:text-rose-400 opacity-0 group-hover:opacity-100 text-[10px] mono transition ml-2 cursor-pointer">✕ Delete</button>
+                        </li>`;
+                });
+            }
+
+            if(software.length === 0) {
+                softwareContainer.innerHTML = '<li class="text-gray-600 italic text-[11px] mono">No system setup parameters bound yet</li>';
+            } else {
+                software.forEach(s => {
+                    softwareContainer.innerHTML += `
+                        <li class="flex items-center justify-between gap-2 p-2 bg-gray-900 rounded border border-gray-800/80 group hover:border-teal-500/30 transition">
+                            <a href="${s.link}" target="_blank" rel="noopener noreferrer" class="truncate text-gray-300 hover:text-teal-400 transition font-medium block flex-1">${s.title}</a>
+                            <button onclick="deleteVaultItem(${s.id})" class="text-gray-600 hover:text-rose-400 opacity-0 group-hover:opacity-100 text-[10px] mono transition ml-2 cursor-pointer">✕ Delete</button>
+                        </li>`;
+                });
+            }
         }
 
         function filterNotices(category) {
@@ -476,11 +458,9 @@
             ['all', 'Exam', 'Class', 'Lab'].forEach(b => {
                 const btn = document.getElementById(`btn-${b}`);
                 if(b === category) {
-                    btn.classList.remove('bg-gray-800', 'text-gray-300');
-                    btn.classList.add('bg-emerald-500', 'text-gray-950');
+                    btn.className = "px-3 py-1.5 rounded-lg text-sm font-medium bg-emerald-500 text-gray-950 transition cursor-pointer";
                 } else {
-                    btn.classList.remove('bg-emerald-500', 'text-gray-950');
-                    btn.classList.add('bg-gray-800', 'text-gray-300');
+                    btn.className = "px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-800 hover:bg-gray-700 text-gray-300 transition cursor-pointer";
                 }
             });
             renderNotices();
@@ -606,7 +586,7 @@
             });
         }, 1000);
 
-        // Bootstrap App
+        // Init App Engine
         renderNotices();
     </script>
 </body>
